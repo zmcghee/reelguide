@@ -1,15 +1,12 @@
-# Treeclimber
+# Reel Guide
 
-*By Zack McGhee for Cox Media Group and Fans 1st Media*
+*A social repertory cinema calendar by Zack McGhee*
 
 ## Overview
 
-Treeclimber is a Django app designed to help you dynamically spin up and terminate AWS instances and run scripts on those instances.
+Reel Guide is a Django project designed to provide repertory cinema listings, as well as some lightweight social functionality around those listings.
 
-For example, Fans 1st Media uses it to deploy WordPress installations using vip-quickstart, load a copy of production data onto that instance, and then checkout a specific branch in our theme repo and activate that theme on the installation.
-
-You can install it as a standalone Django project, or include it as a requirement in a larger Django project.
-
+Pull requests welcome.
 
 ### Local development
 
@@ -25,7 +22,7 @@ Project-specific requirements for your virtualenv are captured in requirements.t
 
 #### First time
 
-Once you have Git, Python, pip, and virtualenv, ``cd`` to a directory you can work in and clone the treeclimber repo. ``cd`` into the repo.
+Once you have Git, Python, pip, and virtualenv, ``cd`` to a directory you can work in and clone the reelguide repo. ``cd`` into the repo.
 
 First, create a secret.py file in the conf directory that contains a ``SECRET_KEY`` variable.
 
@@ -40,7 +37,7 @@ This creates and activates your virtualenv. Then it runs the test suite. If the 
 
 #### Every time
 
-If you've already run your environment before, open your shell, CD to your django-treeclimber directory, and just activate your virtualenv:
+If you've already run your environment before, open your shell, CD to your reelguide directory, and just activate your virtualenv:
 
 ```shell
 source venv/bin/activate
