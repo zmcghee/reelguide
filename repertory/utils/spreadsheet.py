@@ -56,5 +56,7 @@ class GoogleSheet(object):
                     gsx_key = 'gsx$' + field
                 key = gsx_key[4:]
                 item[key] = entry[gsx_key]['$t']
+                if isinstance(item[key], basestring):
+                    item[key] = item[key].strip()
             items.append(item)
         return items
