@@ -1,6 +1,8 @@
 import json
 import requests
 
+from repertory.utils.calendar import CalendarImport
+
 class GoogleSheet(object):
     sheet_id = None
     fields = []
@@ -43,9 +45,7 @@ class GoogleSheet(object):
             self.set_fields(fields)
 
     @property
-    def items(self, fields=[]):
-        if fields:
-            self.set_fields(fields)
+    def items(self):
         items = []
         for entry in self.gsx['feed']['entry']:
             item = {}
