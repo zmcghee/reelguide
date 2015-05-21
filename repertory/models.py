@@ -17,6 +17,10 @@ class Event(models.Model):
             if split_title[0].lower() in articles:
                 self.sort_title = self.title.split(' ', 1)[1]
 
+    def save(self, *args, **kwargs):
+        self.set_sort_title()
+        return super(Event, self).save(*args, **kwargs)
+
 class Venue(models.Model):
     name = models.CharField(max_length=100)
     notes = models.TextField(blank=True, null=True)
