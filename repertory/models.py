@@ -48,3 +48,6 @@ class EventInstance(models.Model):
     series = models.ForeignKey(Series, null=True, blank=True,
       related_name='events')
     url = models.URLField(null=True, blank=True)
+
+    def __unicode__(self):
+        return "%s at %s on %s" % (self.event, self.venue, self.datetime)
