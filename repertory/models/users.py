@@ -9,7 +9,7 @@ from repertory.models.events import EventInstance
 
 class ReelUser(models.Model):
     user = models.OneToOneField(User, related_name='reeluser')
-    facebook_id = models.PositiveIntegerField()
+    facebook_id = models.CharField(max_length=100)
     event_instances = models.ManyToManyField(EventInstance, blank=True,
       related_name='attendees')
     fb_token = models.CharField(max_length=250, blank=True)
@@ -17,10 +17,7 @@ class ReelUser(models.Model):
 
     @property
     def event_ids(self):
-        try:
-            return self.event_instances.values_list('pk', flat=True)
-        except:
-            return []
+        return self.event_instances.values_list('pk', flat=True)
 
     def calendar(self, *args, **kwargs):
         items = []
