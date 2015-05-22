@@ -19,8 +19,3 @@ def authorize_fb_token(fb_access_token, fb_user_id):
         return False
     params = parse_qs(res.text)
     return params['access_token'][0]
-
-def _get_user_password(fb_user_id, fb_first_token):
-    django_pw = fb_user_id + settings.FB_APP_SECRET + fb_first_token
-    hashed_pw = hashlib.sha512(django_pw).hexdigest()
-    return hashed_pw

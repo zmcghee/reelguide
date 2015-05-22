@@ -5,7 +5,7 @@ from django.http import JsonResponse
 
 from repertory.api import _bad_request_method
 from repertory.models import ReelUser
-from repertory.utils.users import authorize_fb_token, _get_user_password
+from repertory.utils.users import authorize_fb_token
 
 def login_or_register(request):
     # Correct request method?
@@ -39,10 +39,8 @@ def login_or_register(request):
                 django_user = reeluser.user
         if new_user:
             # You need a Django user account!
-            # Let's make a password the app can reconstruct, but no one else can
-            django_pw = _get_user_password(fb_user_id, fb_access_token)
-            # Create Django user
-            django_user = User.objects.create_user(fb_user_id, password=hashed_pw)
+            django_pw = User.objects.make_random_password()
+            django_user = User.objects.create_user(fb_user_id, password=django_pw)
             django_user.is_active = True
             django_user.save()
     # Maybe you're logged in, maybe you're not, but do you have a ReelUser?
@@ -54,6 +52,7 @@ def login_or_register(request):
             reeluser = ReelUser.objects.get(facebook_id=fb_user_id)
         except ReelUser.DoesNotExist:
             reeluser = ReelUser(facebook_id=fb_user_id, user=request.user)
+            reeluser.first_token = fb_access_token
         else:
             # Is it associated with this user?
             if reeluser.user:
@@ -61,7 +60,6 @@ def login_or_register(request):
                     res = {'error': "User mismatch. Contact site admin."}
                     return JsonResponse(res, status=403)
         reeluser.user = django_user
-        reeluser.first_token = fb_access_token
         reeluser.save()
     # OK, back to folks who aren't logged in
     if not request.user.is_authenticated():
@@ -69,7 +67,9 @@ def login_or_register(request):
             first_token = reeluser.first_token
         except NameError:
             first_token = django_user.reeluser.first_token
-        django_pw = _get_user_password(fb_user_id, first_token)
+        django_pw = User.objects.make_random_password()
+        django_user.set_password(django_pw)
+        django_user.save()
         user = authenticate(username=django_user.username, password=django_pw)
         if user is not None:
             if user.is_active:
