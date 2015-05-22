@@ -68,8 +68,7 @@ class EventInstance(models.Model):
     def __unicode__(self):
         return "%s at %s on %s" % (self.event, self.venue, self.datetime)
 
-    @property
-    def as_dict(self):
+    def as_dict(self, python_datetime=False):
         datetime_format = "%Y-%m-%d %H:%M:00"
         sort_dt_fmt = "%Y%m%d%H%M"
         obj = {
@@ -87,4 +86,6 @@ class EventInstance(models.Model):
             'sort_datetime': self.datetime.strftime(sort_dt_fmt)
         }
         obj['series'] = None if not self.series else self.series.as_dict
+        if python_datetime:
+            obj['datetime'] = self.datetime
         return obj

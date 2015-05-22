@@ -1,11 +1,34 @@
 <html>
 <head>
-<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+<title>Austin Repertory Cinema Calendar</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<style>
+.ui-checkbox input { margin:0 !important; }
+p.time { margin-top:10px; }
+p.desc { font-size:.8em; }
+td h4 { margin-bottom:5px; }
+td form { margin-bottom:0;max-width:120px;float:right; }
+a.ui-table-columntoggle-btn { display:none !important; }
+</style>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 {% include "js.html" %}
 </head>
 <body>
-{% include "fb_login_modal.html" %}
+<div data-role="page" id="calendar">
+    {% include "calendar.html" %}
+</div><!-- /calendar -->
+
+<div data-role="page" id="login">
+    {% include "login.html" %}
+</div><!-- /login -->
+
+<div data-role="page" id="about">
+    {% include "about.html" %}
+</div>
+
 <div id="fb-root"></div>
 </body>
 </html>

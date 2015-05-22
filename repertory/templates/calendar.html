@@ -1,0 +1,48 @@
+<div data-role="header" data-position="fixed">
+    <h1>Austin Rep Calendar</h1>
+</div><!-- /header -->
+
+<div role="main" class="ui-content">
+    <form>
+        <input id="filterTable-input" data-type="search">
+    </form>
+    <table data-role="table" id="movie-table" data-filter="true" data-input="#filterTable-input" class="ui-responsive table table-striped" data-mode="columntoggle">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Movie or Event</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>
+                    <p class="time"><nobr>{{ event.datetime|time:"g:i a" }}</nobr></p>
+                </td>
+                <td>
+                    <h4>{{ event.title }}</h4>
+                    <p class="desc">
+                        {{ event.venue.name }}
+                        | {{ event.format }}
+                        {% if event.series %}
+                        | {{ event.series.name }}
+                        {% endif %}
+                    </p>
+                </td>
+                <td><form><label for="checkbox-{{ event.event_instance_id }}"><input class="event-checkbox" type="checkbox" id="checkbox-{{ event.event_instance_id }}" data-event-instance-id="{{ event.event_instance_id }}">Going</label></form></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div><!-- /content -->
+
+<div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li><a href="" data-icon="calendar" class="ui-btn-active ui-state-persist">All Events</a></li>
+            <li><a href="{% url 'ajax-user-calendar' %}" data-icon="star">My Events</a></li>
+            <li><a href="#about" data-icon="info">About</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->

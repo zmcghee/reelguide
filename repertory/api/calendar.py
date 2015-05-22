@@ -17,5 +17,5 @@ def upcoming_events(request):
     else:
         qs = qs.order_by('datetime')
     for event in qs:
-        items.append(event.as_dict)
+        items.append(event.as_dict())
     return JsonResponse(items, safe=False)

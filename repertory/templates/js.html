@@ -10,11 +10,45 @@ var reelguide = {
   },
 
   "user": {
-    "event_ids": []
+    "event_ids": [],
+    "_active_checkbox": null
   },
 
   "clear_user": function() {
-    reelguide.user.event_ids = []
+    reelguide.user.event_ids = [];
+    reelguide.updateEventButtonsFromCache();
+  },
+
+  "updateEventButtonsFromCache": function() {
+    jQuery(".event-checkbox").each(function(){
+        var id = jQuery(this).data("event-instance-id");
+        /* Should this be checked? */
+        if(reelguide.isUserGoing(id)){
+            console.log("Marking "+id+" as checked");
+            jQuery(this).prop("checked", true).checkboxradio('refresh');
+        } else {
+            jQuery(this).prop("checked", false).checkboxradio('refresh');
+        }
+        /* Attach click event */
+        jQuery(this).unbind().click(function(event){
+            event.preventDefault();
+            var id = jQuery(this).data("event-instance-id");
+            reelguide.user._active_checkbox = jQuery(this);
+            if( jQuery(this).prop("checked") ) {
+                reelguide.addUserToEvent(id).fail(function() {
+                    reelguide.user._active_checkbox.prop("checked", false).checkboxradio('refresh');
+                }).success(function() {
+                    reelguide.user._active_checkbox = null;
+                });
+            } else {
+                reelguide.removeUserFromEvent(id).fail(function() {
+                    reelguide.user._active_checkbox.checkboxradio('refresh');
+                }).success(function() {
+                    reelguide.user._active_checkbox = null;
+                });
+            }
+        });
+    });
   },
 
   "isUserGoing": function(eventInstanceId) {
@@ -34,7 +68,7 @@ var reelguide = {
     }).fail(function(response){
         if( response.status == 401 ) {
             reelguide.log("Prompting you to login");
-            alert("Please login");
+            reelguide.checkLoginState();
         } else {
             reelguide.clear_user();
             reelguide.log(response.responseText)
@@ -49,14 +83,15 @@ var reelguide = {
   "addUserToEvent": function(eventInstanceId) {
     reelguide.log("Attempting to add you to the event...")
     var data = {"eventInstanceId": eventInstanceId};
-    reelguide.api("{% url "api-add-user-to-event" %}", data).success(
+    return reelguide.api("{% url "api-add-user-to-event" %}", data).success(
         function(res) {
           reelguide.log(res);
           var event_id = res.eventInstanceId;
           var local_cache = reelguide.user.event_ids;
           local_cache.push(event_id);
           reelguide.user.event_ids = local_cache;
-          alert(res.success);
+          jQuery("#checkbox-"+event_id).prop("checked", true).checkboxradio('refresh');
+          //alert(res.success);
         }
     );
   },
@@ -64,13 +99,14 @@ var reelguide = {
   "removeUserFromEvent": function(eventInstanceId) {
     reelguide.log("Attempting to remove you from the event...")
     var data = {"eventInstanceId": eventInstanceId};
-    reelguide.api("{% url "api-remove-user-from-event" %}", data).success(
+    return reelguide.api("{% url "api-remove-user-from-event" %}", data).success(
         function(res) {
           var event_id = res.eventInstanceId;
           var local_cache = reelguide.user.event_ids;
           local_cache.splice(jQuery.inArray(event_id, local_cache), 1);
           reelguide.user.event_ids = local_cache;
-          alert(res.success);
+          jQuery("#checkbox-"+event_id).prop("checked", false).checkboxradio('refresh');
+          //alert(res.success);
         }
     );
   },
@@ -85,6 +121,9 @@ var reelguide = {
       data: { "fbAccessToken": fbAccessToken, "fbUserID": fbUserID }
     }).done(function(response){
         reelguide.log("Executing your callback!");
+        if (location.hash != '') {
+            location.hash = '';
+        }
     }).success(callback);
   },
 
@@ -101,16 +140,19 @@ var reelguide = {
       reelguide.login(accessToken, userID, function(result) {
         reelguide.log(result);
         reelguide.user.event_ids = result.event_ids;
+        reelguide.updateEventButtonsFromCache();
       });
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       alert("Please authorize the app to use that feature.");
       reelguide.clear_user();
+      location.hash = 'login';
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      alert("Please login to use that feature.");
+      reelguide.log("Please login to use that feature.");
       reelguide.clear_user();
+      location.hash = 'login';
     }
   },
   
@@ -128,7 +170,10 @@ var reelguide = {
       reelguide.login(accessToken, userID, function(result) {
         reelguide.log(result)
         reelguide.user.event_ids = result.event_ids;
+        reelguide.updateEventButtonsFromCache();
       });
+    } else {
+      reelguide.clear_user();
     }
   },
 
@@ -137,7 +182,7 @@ var reelguide = {
   // code below.
   "checkLoginState": function() {
     FB.getLoginStatus(function(response) {
-      fbStatusChangeCallback(response);
+      reelguide.fbStatusChangeCallback(response);
     });
   },
 
@@ -146,6 +191,7 @@ var reelguide = {
     var token = reelguide.getCookie('csrftoken');
     if(!token) {
         console.log("No CSRF token");
+        token = "{% csrf_token %}";
     }
     return token;
   },

@@ -4,7 +4,9 @@ from repertory import api as repertory_api
 from repertory.views import *
 
 urlpatterns = [
-    url(r'^$', FBLoginView.as_view(), name='login'),
+    url(r'^$', AppView.as_view(), name='login'),
+    url(r'^mine$', 'repertory.views.mine',
+      name='ajax-user-calendar'),
     url(r'^api/calendar', repertory_api.upcoming_events,
       name='api-calendar'),
     url(r'^api/me/login', repertory_api.login_or_register,
@@ -14,5 +16,5 @@ urlpatterns = [
     url(r'^api/me/event/remove$', repertory_api.remove_user_from_event,
       name='api-remove-user-from-event'),
     url(r'^api/me/calendar$', repertory_api.user_calendar,
-      name='api-remove-user-from-event'),
+      name='api-user-calendar'),
 ]

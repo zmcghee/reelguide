@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
@@ -63,17 +63,13 @@ def login_or_register(request):
         reeluser.save()
     # OK, back to folks who aren't logged in
     if not request.user.is_authenticated():
-        try:
-            first_token = reeluser.first_token
-        except NameError:
-            first_token = django_user.reeluser.first_token
         django_pw = User.objects.make_random_password()
         django_user.set_password(django_pw)
         django_user.save()
         user = authenticate(username=django_user.username, password=django_pw)
         if user is not None:
             if user.is_active:
-                request.user = user
+                login(request, user)
             else:
                 res = {'error': "Your account is disabled. :("}
                 return JsonResponse(res, status=403)

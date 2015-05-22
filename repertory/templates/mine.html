@@ -1,0 +1,59 @@
+<script>
+if(!window.reelguide) location.href = '/';
+</script>
+<div data-role="page" id="mine">
+<div data-role="header" data-position="fixed">
+    <h1>Austin Rep Calendar</h1>
+</div><!-- /header -->
+
+<div role="main" class="ui-content">
+{% if not logged_in %}
+<script>location.hash = 'login';</script>
+{% else %}
+{% if not events %}
+<p>Add some events to your calendar, silly.</p>
+{% else %}
+    <form>
+        <input id="filterTable-input2" data-type="search">
+    </form>
+    <table data-role="table" id="mine-table" data-filter="true" data-input="#filterTable-input2" class="ui-responsive table table-striped" data-mode="columntoggle">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Movie or Event</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in events %}
+            <tr>
+                <td>
+                    <p class="time"><nobr>{{ event.datetime|time:"g:i a" }}</nobr></p>
+                </td>
+                <td>
+                    <h4>{{ event.title }}</h4>
+                    <p class="desc">
+                        {{ event.venue.name }}
+                        | {{ event.format }}
+                        {% if event.series %}
+                        | {{ event.series.name }}
+                        {% endif %}
+                    </p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endif %}
+{% endif %}
+</div><!-- /content -->
+
+<div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li><a href="/" data-icon="calendar">All Events</a></li>
+            <li><a href="#mine" data-icon="star" class="ui-btn-active">My Events</a></li>
+            <li><a href="#about" data-icon="info">About</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->
+</div><!-- /page -->

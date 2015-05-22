@@ -1,0 +1,21 @@
+<div data-role="header" data-position="fixed">
+    <h1>Austin Rep Calendar</h1>
+</div><!-- /header -->
+
+<div role="main" class="ui-content">
+    <h2>Oh, hi. Log in, won't you?</h2>
+    <p>You can browse the calendar listings all you want, but to save stuff to your personal calendar, I'm afraid you need to login with Facebook. (This will also power simple but cool features to come.)</p>
+    <fb:login-button scope="public_profile,email,user_friends" onlogin="reelguide.checkLoginState();" data-size="xlarge">
+    </fb:login-button>
+    <p style="margin-top:50vh"><a href="javascript:window.history.go(-1)">Back to where you came from</a></p>
+</div><!-- /content -->
+
+<div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li><a href="" data-icon="calendar">All Events</a></li>
+            <li><a href="{% url 'ajax-user-calendar' %}" data-icon="star">My Events</a></li>
+            <li><a href="#about" data-icon="info">About</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->

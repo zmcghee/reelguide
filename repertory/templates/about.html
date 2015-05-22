@@ -1,0 +1,17 @@
+<div data-role="header" data-position="fixed">
+    <h1>Austin Rep Calendar</h1>
+</div><!-- /header -->
+
+<div role="main" class="ui-content">
+    <p>Oh hey, this is the about page.</p>
+</div><!-- /content -->
+
+<div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li><a href="/" data-icon="calendar">All Events</a></li>
+            <li><a href="{% url 'ajax-user-calendar' %}" data-icon="star">My Events</a></li>
+            <li><a href="#about" data-icon="info" class="ui-btn-active">About</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->

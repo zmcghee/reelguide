@@ -39,4 +39,4 @@ def user_calendar(request):
         return _bad_request_method()
     if not request.user.is_authenticated():
         return _not_authenticated()
-    return JsonResponse(request.user.reeluser.calendar, safe=False)
+    return JsonResponse(request.user.reeluser.calendar(), safe=False)
