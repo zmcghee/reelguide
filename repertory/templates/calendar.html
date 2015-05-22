@@ -7,15 +7,15 @@
         <input id="filterTable-input" data-type="search">
     </form>
     <table data-role="table" id="movie-table" data-filter="true" data-input="#filterTable-input" class="ui-responsive table table-striped" data-mode="columntoggle">
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Movie or Event</th>
-                <th>&nbsp;</th>
-            </tr>
-        </thead>
         <tbody>
             {% for event in events %}
+            {% ifchanged event.datetime|date:"D j M" %}
+            <tr class="info">
+                <th colspan="3">
+                    {{ event.datetime|date:"D j M" }}
+                </th>
+            </tr>
+            {% endifchanged %}
             <tr>
                 <td>
                     <p class="time"><nobr>{{ event.datetime|time:"g:i a" }}</nobr></p>
