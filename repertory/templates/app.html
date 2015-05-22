@@ -5,10 +5,11 @@
 <link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <style>
-@media only screen and (max-device-width : 700px) 
+@media only screen and (max-width : 700px) {
     body { zoom:80%; }
 }
-.ui-checkbox input { margin:0 !important; }
+#rep .ui-checkbox input { top:20% !important; }
+#rep input[type=checkbox] { margin-top:0 !important; }
 p.time { margin-top:10px; }
 p.desc { font-size:.8em; }
 td h4 { margin-bottom:5px; }
@@ -20,7 +21,7 @@ tr.info { display:table-row !important; }
 <script src="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 {% include "js.html" %}
 </head>
-<body>
+<body id="rep">
 <div data-role="page" id="calendar">
     {% include "calendar.html" %}
 </div><!-- /calendar -->
