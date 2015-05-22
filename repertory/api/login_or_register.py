@@ -52,15 +52,13 @@ def login_or_register(request):
             reeluser = ReelUser.objects.get(facebook_id=fb_user_id)
         except ReelUser.DoesNotExist:
             reeluser = ReelUser(facebook_id=fb_user_id, user=django_user)
-            reeluser.first_token = fb_access_token
+            reeluser.save()
         else:
             # Is it associated with this user?
             if reeluser.user:
                 if reeluser.user != django_user:
                     res = {'error': "User mismatch. Contact site admin."}
                     return JsonResponse(res, status=403)
-        reeluser.user = django_user
-        reeluser.save()
     # OK, back to folks who aren't logged in
     if not request.user.is_authenticated():
         django_pw = User.objects.make_random_password()
