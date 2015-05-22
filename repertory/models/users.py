@@ -17,7 +17,10 @@ class ReelUser(models.Model):
 
     @property
     def event_ids(self):
-        return self.event_instances.values_list('pk', flat=True)
+        try:
+            return self.event_instances.values_list('pk', flat=True)
+        except:
+            return []
 
     def calendar(self, *args, **kwargs):
         items = []
