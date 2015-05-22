@@ -52,8 +52,27 @@ python manage.py test
 
 #### Loading data
 
-There's a management command to load data from a current Google Sheet.
+There are two options for loading data into your environment.
+
+##### Fixture
+
+The event calendar every week with the third week out. When that happens, I'll update a fixture file in this repo called events. You can load it like this:
+
+```shell
+python manage.py loaddata events
+```
+
+##### Management command
+
+There's also a management command to load data from the current Google Sheet. That's where calendar info. originates. This command will take that spreadsheet data and (optionally) do a TMDB lookup, in addition to mapping other event info. to the database.
 
 ```shell
 python manage.py googleimport
+```
+
+I run this command locally to stage the weekly calendar update. Then I generate the fixture file above and use that to update the data in production. To generate the fixture file, I run:
+
+```shell
+python manage.py dumpdata repertory.Event repertory.Venue \
+repertory.Series repertory.EventInstance --indent 4 > events.json
 ```
