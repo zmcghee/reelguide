@@ -1,5 +1,7 @@
 import requests
 
+from datetime import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -17,3 +19,12 @@ class ReelUser(models.Model):
     @property
     def event_ids(self):
         return self.event_instances.values_list('pk', flat=True)
+
+    @property
+    def calendar(self):
+        items = []
+        filter = {'datetime__gte': datetime.now()}
+        qs = self.event_instances.filter(**filter).order_by('datetime')
+        for event in qs:
+            items.append(event.as_dict)
+        return items

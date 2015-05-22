@@ -28,6 +28,14 @@ class Venue(models.Model):
     def __unicode__(self):
         return self.name
 
+    @property
+    def as_dict(self):
+        return {
+            'name': self.name,
+            'id': self.id,
+            'notes': self.notes
+        }
+
 class Series(models.Model):
     name = models.CharField(max_length=100)
     notes = models.TextField(blank=True, null=True)
@@ -37,6 +45,14 @@ class Series(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    @property
+    def as_dict(self):
+        return {
+            'name': self.name,
+            'id': self.id,
+            'notes': self.notes
+        }
 
 class EventInstance(models.Model):
     event = models.ForeignKey(Event, related_name='instances')
@@ -51,3 +67,24 @@ class EventInstance(models.Model):
 
     def __unicode__(self):
         return "%s at %s on %s" % (self.event, self.venue, self.datetime)
+
+    @property
+    def as_dict(self):
+        datetime_format = "%Y-%m-%d %H:%M:00"
+        sort_dt_fmt = "%Y%m%d%H%M"
+        obj = {
+            'title': self.event.title,
+            'tmdb': self.event.tmdb,
+            'imdb': self.event.imdb,
+            'event_id': self.event.id,
+            'event_instance_id': self.id,
+            'venue': self.venue.as_dict,
+            'external_url': self.url,
+            'is_film': self.is_film,
+            'format': self.format,
+            'datetime': self.datetime.strftime(datetime_format),
+            'sort_title': self.event.sort_title,
+            'sort_datetime': self.datetime.strftime(sort_dt_fmt)
+        }
+        obj['series'] = None if not self.series else self.series.as_dict
+        return obj

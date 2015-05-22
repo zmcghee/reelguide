@@ -34,3 +34,9 @@ def add_user_to_event(request):
 def remove_user_from_event(request):
     return _user_to_event(request, remove=True)
 
+def user_calendar(request):
+    if request.method != "GET":
+        return _bad_request_method()
+    if not request.user.is_authenticated():
+        return _not_authenticated()
+    return JsonResponse(request.user.reeluser.calendar, safe=False)
