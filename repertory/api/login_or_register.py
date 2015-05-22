@@ -12,8 +12,8 @@ def login_or_register(request):
     if request.method != "POST":
         return _bad_request_method()
     # Got your token and ID?
-    fb_access_token = request.POST['fbAccessToken']
-    fb_user_id = request.POST['fbUserID']
+    fb_access_token = "%s" % request.POST['fbAccessToken']
+    fb_user_id = "%s" % request.POST['fbUserID']
     if not fb_access_token or not fb_user_id:
         res = {'error': "Missing request parameters."}
         return JsonResponse(res, status=400)
@@ -49,9 +49,9 @@ def login_or_register(request):
     except ReelUser.DoesNotExist:
         # Is there a ReelUser for your Facebook account?
         try:
-            reeluser = ReelUser.objects.get(facebook_id=fb_user_id)
+            reeluser = ReelUser.objects.get(facebook_id=int(fb_user_id))
         except ReelUser.DoesNotExist:
-            reeluser = ReelUser(facebook_id=fb_user_id, user=django_user)
+            reeluser = ReelUser(facebook_id=int(fb_user_id), user=django_user)
             reeluser.save()
         else:
             # Is it associated with this user?
