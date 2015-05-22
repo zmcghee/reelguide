@@ -24,7 +24,7 @@ var reelguide = {
         var id = jQuery(this).data("event-instance-id");
         /* Should this be checked? */
         if(reelguide.isUserGoing(id)){
-            console.log("Marking "+id+" as checked");
+            reelguide.log("Marking "+id+" as checked");
             jQuery(this).prop("checked", true).checkboxradio('refresh');
         } else {
             jQuery(this).prop("checked", false).checkboxradio('refresh');
@@ -190,7 +190,7 @@ var reelguide = {
   "getCSRFToken": function() {
     var token = reelguide.getCookie('csrftoken');
     if(!token) {
-        console.log("No CSRF token");
+        reelguide.log("No CSRF cookie");
         token = "{% csrf_token %}";
     }
     return token;
