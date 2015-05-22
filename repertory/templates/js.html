@@ -141,6 +141,7 @@ var reelguide = {
         reelguide.log(result);
         reelguide.user.event_ids = result.event_ids;
         reelguide.updateEventButtonsFromCache();
+        location.hash = '';
       });
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
