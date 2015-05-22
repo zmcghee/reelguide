@@ -49,3 +49,11 @@ source venv/bin/activate
 git pull
 python manage.py test
 ```
+
+#### Loading data
+
+There's a management command to load data from a current Google Sheet.
+
+```shell
+python manage.py googleimport
+```
