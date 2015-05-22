@@ -1,0 +1,125 @@
+<script>
+var reelguide = {
+
+  "debug": true,
+  
+  "log": function(msg) {
+    if(reelguide.debug) {
+        console.log(msg)
+    }
+  },
+
+  "login": function(fbAccessToken, fbUserID, callback) {
+    reelguide.log("You're logged into Facebook! Logging you into the app...")
+    reelguide.log("Sending your access Token: "+fbAccessToken)
+    reelguide.log("Sending your user ID: "+fbUserID)
+    jQuery.ajax({
+      method: "POST",
+      url: "{% url "api-login-or-register" %}",
+      data: { "fbAccessToken": fbAccessToken, "fbUserID": fbUserID }
+    }).done(function(response){
+        reelguide.log("Executing your callback!");
+    }).done(callback);
+  },
+
+  // This is called with the results from from FB.getLoginStatus().
+  "fbStatusChangeCallback": function(response, callback) {
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      var accessToken = response.authResponse.accessToken;
+      var userID = response.authResponse.userID;
+      reelguide.login(accessToken, userID, function(result) {
+        reelguide.log(result)
+      });
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      // MSG: Please login to this app.
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      // MSG: Please login to Facebook.
+    }
+  },
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  "checkLoginState": function() {
+    FB.getLoginStatus(function(response) {
+      fbStatusChangeCallback(response);
+    });
+  },
+
+  // Get CSRF token
+  "getCSRFToken": function() {
+    var token = reelguide.getCookie('csrftoken');
+    if(!token) {
+        console.log("No CSRF token");
+    }
+    return token;
+  },
+
+  // Get cookie (for CSRFtoken)
+  "getCookie": function(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+  }
+
+}
+
+// Initialize Facebook after the SDK is loaded
+window.fbAsyncInit = function() {
+
+  FB.init({
+    appId: '762159260569152',
+    cookie: true,
+    xfbml: true,
+    version: 'v2.3'
+  });
+
+  // FB.getLoginStatus() to see if the user is already logged in.
+  FB.getLoginStatus(function(response) {
+    reelguide.fbStatusChangeCallback(response);
+  });
+
+};
+
+// Load the Facebook SDK asynchronously
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+// Configure jQuery AJAX requests
+jQuery.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    /* Thanks to Alan Hamlett for this
+       https://gist.github.com/alanhamlett/6316427 */
+    if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
+        if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+            // Only send the token to relative URLs i.e. locally.
+            var token = reelguide.getCSRFToken();
+            xhr.setRequestHeader("X-CSRFToken", token);
+        }
+    }
+  }
+});
+</script>
