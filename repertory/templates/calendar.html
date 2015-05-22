@@ -28,6 +28,9 @@
                         {% if event.series %}
                         | {{ event.series.name }}
                         {% endif %}
+                        {% if event.external_url %}
+                        | <a href="{{ event.external_url }}">Tickets</a>
+                        {% endif %}
                     </p>
                 </td>
                 <td><form><label for="checkbox-{{ event.event_instance_id }}"><input class="event-checkbox" type="checkbox" id="checkbox-{{ event.event_instance_id }}" data-event-instance-id="{{ event.event_instance_id }}">Going</label></form></td>
