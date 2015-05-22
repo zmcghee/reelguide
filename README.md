@@ -30,7 +30,7 @@ Then run:
 
 ```shell
 virtualenv venv && source venv/bin/activate
-python manage.py test
+python manage.py test conf.tests
 ```
 
 This creates and activates your virtualenv. Then it runs the test suite. If the tests pass, you're off to the races!
