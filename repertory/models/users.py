@@ -13,3 +13,7 @@ class ReelUser(models.Model):
     fb_token = models.CharField(max_length=250, blank=True)
     first_token = models.CharField(max_length=250)
     fb_cache = models.TextField(blank=True)
+
+    @property
+    def event_ids(self):
+        return self.event_instances.values_list('pk', flat=True)

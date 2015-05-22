@@ -3,14 +3,14 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
+from repertory.api import _bad_request_method
 from repertory.models import ReelUser
 from repertory.utils.users import authorize_fb_token, _get_user_password
 
 def login_or_register(request):
     # Correct request method?
     if request.method != "POST":
-        res = {'error': "Invalid request method."}
-        return JsonResponse(res, status=400)
+        return _bad_request_method()
     # Got your token and ID?
     fb_access_token = request.POST['fbAccessToken']
     fb_user_id = request.POST['fbUserID']
@@ -83,5 +83,6 @@ def login_or_register(request):
     # OK, back to everyone who's made it this far
     request.user.reeluser.fb_token = fb_access_token
     request.user.reeluser.save()
-    res = {'success': "You're logged in."}
+    res = {'success': "You're logged in.",
+           'event_ids': list(request.user.reeluser.event_ids)}
     return JsonResponse(res, status=200)

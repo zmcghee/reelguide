@@ -9,6 +9,72 @@ var reelguide = {
     }
   },
 
+  "user": {
+    "event_ids": []
+  },
+
+  "clear_user": function() {
+    reelguide.user.event_ids = []
+  },
+
+  "isUserGoing": function(eventInstanceId) {
+    var id = Number(eventInstanceId);
+    var local_cache = reelguide.user.event_ids;
+    if(jQuery.inArray(id, local_cache) > -1) {
+        return true;
+    }
+    return false;
+  },
+
+  "api": function(url, data) {
+    return jQuery.ajax({
+      method: "POST",
+      url: url,
+      data: data
+    }).fail(function(response){
+        if( response.status == 401 ) {
+            reelguide.log("Prompting you to login");
+            alert("Please login");
+        } else {
+            reelguide.clear_user();
+            reelguide.log(response.responseText)
+            var res = JSON.parse(response.responseText)
+            reelguide.log(res)
+            reelguide.log("Status code: "+response.status)
+            alert("There was an error with the request: "+res['error']);
+        }
+    });
+  },
+  
+  "addUserToEvent": function(eventInstanceId) {
+    reelguide.log("Attempting to add you to the event...")
+    var data = {"eventInstanceId": eventInstanceId};
+    reelguide.api("{% url "api-add-user-to-event" %}", data).success(
+        function(res) {
+          reelguide.log(res);
+          var event_id = res.eventInstanceId;
+          var local_cache = reelguide.user.event_ids;
+          local_cache.push(event_id);
+          reelguide.user.event_ids = local_cache;
+          alert(res.success);
+        }
+    );
+  },
+  
+  "removeUserFromEvent": function(eventInstanceId) {
+    reelguide.log("Attempting to remove you from the event...")
+    var data = {"eventInstanceId": eventInstanceId};
+    reelguide.api("{% url "api-remove-user-from-event" %}", data).success(
+        function(res) {
+          var event_id = res.eventInstanceId;
+          var local_cache = reelguide.user.event_ids;
+          local_cache.splice(jQuery.inArray(event_id, local_cache), 1);
+          reelguide.user.event_ids = local_cache;
+          alert(res.success);
+        }
+    );
+  },
+
   "login": function(fbAccessToken, fbUserID, callback) {
     reelguide.log("You're logged into Facebook! Logging you into the app...")
     reelguide.log("Sending your access Token: "+fbAccessToken)
@@ -19,7 +85,7 @@ var reelguide = {
       data: { "fbAccessToken": fbAccessToken, "fbUserID": fbUserID }
     }).done(function(response){
         reelguide.log("Executing your callback!");
-    }).done(callback);
+    }).success(callback);
   },
 
   // This is called with the results from from FB.getLoginStatus().
@@ -33,15 +99,36 @@ var reelguide = {
       var accessToken = response.authResponse.accessToken;
       var userID = response.authResponse.userID;
       reelguide.login(accessToken, userID, function(result) {
-        reelguide.log(result)
+        reelguide.log(result);
+        reelguide.user.event_ids = result.event_ids;
       });
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      // MSG: Please login to this app.
+      alert("Please authorize the app to use that feature.");
+      reelguide.clear_user();
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      // MSG: Please login to Facebook.
+      alert("Please login to use that feature.");
+      reelguide.clear_user();
+    }
+  },
+  
+  // Same, but don't raise alerts if the user's not logged in
+  // (we just do this on page load in case they're logged in)
+  "fbSilentStatusChangeCallback": function(response, callback) {
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      var accessToken = response.authResponse.accessToken;
+      var userID = response.authResponse.userID;
+      reelguide.login(accessToken, userID, function(result) {
+        reelguide.log(result)
+        reelguide.user.event_ids = result.event_ids;
+      });
     }
   },
 
@@ -94,7 +181,7 @@ window.fbAsyncInit = function() {
 
   // FB.getLoginStatus() to see if the user is already logged in.
   FB.getLoginStatus(function(response) {
-    reelguide.fbStatusChangeCallback(response);
+    reelguide.fbSilentStatusChangeCallback(response);
   });
 
 };
