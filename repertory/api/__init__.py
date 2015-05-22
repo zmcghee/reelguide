@@ -9,5 +9,6 @@ def _not_authenticated():
     return JsonResponse(res, status=401)
 
 # Avoid circular imports
+from repertory.api.calendar import *
 from repertory.api.login_or_register import *
 from repertory.api.user_events import *

@@ -5,6 +5,8 @@ from repertory.views import *
 
 urlpatterns = [
     url(r'^$', FBLoginView.as_view(), name='login'),
+    url(r'^api/calendar', repertory_api.upcoming_events,
+      name='api-calendar'),
     url(r'^api/me/login', repertory_api.login_or_register,
       name='api-login-or-register'),
     url(r'^api/me/event/add$', repertory_api.add_user_to_event,
