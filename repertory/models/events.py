@@ -41,7 +41,7 @@ class Series(models.Model):
 class EventInstance(models.Model):
     event = models.ForeignKey(Event, related_name='instances')
     venue = models.ForeignKey(Venue, related_name='events')
-    datetime = models.DateTimeField()
+    datetime = models.DateTimeField(db_index=True)
     format = models.CharField(max_length=20, default='Unknown',
       db_index=True)
     is_film = models.BooleanField(default=False, blank=True)
