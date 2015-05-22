@@ -4,7 +4,7 @@
 
 <div role="main" class="ui-content">
     <form>
-        <input id="filterTable-input" data-type="search">
+        <input id="filterTable-input" data-type="search" placeholder="Filter by title, format, venue, series, whatever">
     </form>
     <table data-role="table" id="movie-table" data-filter="true" data-input="#filterTable-input" class="ui-responsive table table-striped" data-mode="columntoggle">
         <tbody>
@@ -30,6 +30,9 @@
                         {% endif %}
                         {% if event.external_url %}
                         | <a href="{{ event.external_url }}">Tickets</a>
+                        {% endif %}
+                        {% if event.is_film %}
+                        <span style="display:none">Film</span>
                         {% endif %}
                     </p>
                 </td>
