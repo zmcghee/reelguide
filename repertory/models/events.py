@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 
 class Event(models.Model):
@@ -83,9 +85,10 @@ class EventInstance(models.Model):
             'format': self.format,
             'datetime': self.datetime.strftime(datetime_format),
             'sort_title': self.event.sort_title,
-            'sort_datetime': self.datetime.strftime(sort_dt_fmt)
+            'sort_datetime': self.datetime.strftime(sort_dt_fmt),
         }
         obj['series'] = None if not self.series else self.series.as_dict
         if python_datetime:
             obj['datetime'] = self.datetime
+            obj['endtime'] = self.datetime + timedelta(hours=2)
         return obj

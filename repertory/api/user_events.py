@@ -1,4 +1,7 @@
+from base64 import b64decode
+
 from django.http import JsonResponse
+from django.shortcuts import render
 
 from repertory.api import _not_authenticated, _bad_request_method
 from repertory.models import ReelUser, EventInstance
@@ -40,3 +43,11 @@ def user_calendar(request):
     if not request.user.is_authenticated():
         return _not_authenticated()
     return JsonResponse(request.user.reeluser.calendar(), safe=False)
+
+def user_ical_feed(request, secret):
+    if request.method != "GET":
+        return _bad_request_method()
+    fbid, reeluserid = b64decode(secret).split("<>")
+    events = request.user.reeluser.calendar(python_datetime=True)
+    context = { 'events': events }
+    return render(request, "ical.ics", context)

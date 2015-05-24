@@ -1,3 +1,5 @@
+from base64 import b64encode
+
 from datetime import datetime
 
 from django.shortcuts import render
@@ -16,9 +18,11 @@ def upcoming_events():
 def mine(request):
     if request.user.is_authenticated():
         my_events = request.user.reeluser.calendar(python_datetime=True)
-        context = {'events': my_events, 'logged_in': True}
+        ical = b64encode("%s<>%s" % (request.user.reeluser.facebook_id,
+          request.user.reeluser.id))
+        context = {'ical': ical, 'events': my_events, 'logged_in': True}
     else:
-        context = {'events': False, 'logged_in': False}
+        context = {'ical': False, 'events': False, 'logged_in': False}
     return render(request, "mine.html", context)
 
 class AppView(TemplateView):

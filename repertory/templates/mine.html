@@ -53,6 +53,9 @@ if(!window.reelguide) location.href = '/';
         </tbody>
     </table>
 {% endif %}
+{% comment %}
+<p>Here's your iCal link: {% url 'api-user-ical-feed' secret=ical %}</p>
+{% endcomment %}
 {% endif %}
 </div><!-- /content -->
 

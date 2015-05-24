@@ -7,6 +7,8 @@ urlpatterns = [
     url(r'^$', AppView.as_view(), name='login'),
     url(r'^mine$', 'repertory.views.mine',
       name='ajax-user-calendar'),
+    url(r'^api/calendar/(?P<secret>.*)/feed.ics', repertory_api.user_ical_feed,
+      name='api-user-ical-feed'),
     url(r'^api/calendar', repertory_api.upcoming_events,
       name='api-calendar'),
     url(r'^api/me/login', repertory_api.login_or_register,
