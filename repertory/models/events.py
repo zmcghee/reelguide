@@ -67,6 +67,9 @@ class EventInstance(models.Model):
       related_name='events')
     url = models.URLField(null=True, blank=True)
 
+    class Meta:
+        ordering = ['datetime']
+
     def __unicode__(self):
         return "%s at %s on %s" % (self.event, self.venue, self.datetime)
 
