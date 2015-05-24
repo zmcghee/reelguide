@@ -50,4 +50,4 @@ def user_ical_feed(request, secret):
     fbid, reeluserid = b64decode(secret).split("<>")
     reeluser = ReelUser.objects.get(pk=reeluserid)
     context = { 'events': reeluser.calendar(python_datetime=True) }
-    return render(request, "ical.ics", context)
+    return render(request, "ical.ics", context, content_type='text/calendar')

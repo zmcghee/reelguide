@@ -4,7 +4,7 @@ PRODID:-//hacksw/handcal//NONSGML v1.0//EN
 CALSCALE:GREGORIAN{% for event in events %}
 BEGIN:VEVENT
 DTEND:{{ event.endtime|date:"Ymd\THis\Z" }}
-UID:austinrep-{{ event.id }}
+UID:austinrep-{{ event.event_id }}
 DTSTAMP:{% now "Ymd\THis\Z" %}
 LOCATION:{{ event.venue.name }}
 SUMMARY:{{ event.title }}
