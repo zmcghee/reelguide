@@ -111,6 +111,15 @@ var reelguide = {
     );
   },
 
+  "logout": function() {
+    FB.logout(function(response) {
+      jQuery.getJSON("{% url 'api-logout' %}", function(data) {
+        reelguide.log(data.success);
+        location.href = '/';
+      });
+    });
+  },
+
   "login": function(fbAccessToken, fbUserID, callback) {
     reelguide.log("You're logged into Facebook! Logging you into the app...")
     reelguide.log("Sending your access Token: "+fbAccessToken)

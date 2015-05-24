@@ -11,6 +11,8 @@ urlpatterns = [
       name='api-calendar'),
     url(r'^api/me/login', repertory_api.login_or_register,
       name='api-login-or-register'),
+    url(r'^api/me/logout', repertory_api.logout,
+      name='api-logout'),
     url(r'^api/me/event/add$', repertory_api.add_user_to_event,
       name='api-add-user-to-event'),
     url(r'^api/me/event/remove$', repertory_api.remove_user_from_event,

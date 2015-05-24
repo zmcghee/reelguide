@@ -1,11 +1,16 @@
 from django.conf import settings
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout as logout_request
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
 from repertory.api import _bad_request_method
 from repertory.models import ReelUser
 from repertory.utils.users import authorize_fb_token
+
+def logout(request):
+    logout_request(request)
+    res = {'success': "You are logged out."}
+    return JsonResponse(res, status=200)
 
 def login_or_register(request):
     # Correct request method?
