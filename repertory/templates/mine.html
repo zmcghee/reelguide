@@ -5,11 +5,6 @@ if(!window.reelguide) location.href = '/';
 <div data-role="header">
     <h1>Austin Rep Calendar</h1>
 </div><!-- /header -->
-<div data-role="header" class="filter-header ui-content">
-    <form>
-        <input id="filterTable-input2" data-type="search" placeholder="Filter by title, format, venue, series, whatever"{% if not events %} disabled{% endif %}>
-    </form>
-</div><!-- /filter -->
 
 <div role="main" class="ui-content">
 {% if not logged_in %}
@@ -18,6 +13,9 @@ if(!window.reelguide) location.href = '/';
 {% if not events %}
 <p>Add some events to your calendar, silly.</p>
 {% else %}
+    <form>
+        <input id="filterTable-input2" data-type="search" placeholder="Filter by title, format, venue, series, whatever"{% if not events %} disabled{% endif %}>
+    </form>
     <table data-role="table" id="mine-table" data-filter="true" data-input="#filterTable-input2" class="ui-responsive table table-striped" data-mode="columntoggle">
         <tbody>
             {% for event in events %}
