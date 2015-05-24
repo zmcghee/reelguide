@@ -11,5 +11,6 @@ DESCRIPTION:{{ event.title }}
 {% comment %}URL;VALUE=URI:<?= escapeString($uri) ?>
 {% endcomment %}SUMMARY:{% if event.series %}{{ event.series.name }}{% endif %}
 DTSTART:{{ event.datetime|date:"Ymd\THis\Z" }}
-END:VEVENT
-{% endfor %}END:VCALENDAR
+END:VEVENT{% endfor %}
+
+END:VCALENDAR
