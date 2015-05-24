@@ -838,19 +838,6 @@
 },
 {
     "fields": {
-        "format": "Digital",
-        "url": null,
-        "series": 2,
-        "venue": 4,
-        "datetime": "2015-05-24T12:10:00",
-        "event": 13,
-        "is_film": false
-    },
-    "model": "repertory.eventinstance",
-    "pk": 563
-},
-{
-    "fields": {
         "format": "DCP",
         "url": null,
         "series": 5,
@@ -887,19 +874,6 @@
     },
     "model": "repertory.eventinstance",
     "pk": 566
-},
-{
-    "fields": {
-        "format": "DCP",
-        "url": null,
-        "series": 2,
-        "venue": 4,
-        "datetime": "2015-05-24T15:05:00",
-        "event": 7,
-        "is_film": false
-    },
-    "model": "repertory.eventinstance",
-    "pk": 567
 },
 {
     "fields": {
@@ -1446,5 +1420,44 @@
     },
     "model": "repertory.eventinstance",
     "pk": 609
+},
+{
+    "fields": {
+        "format": "Digital",
+        "url": "",
+        "series": 2,
+        "venue": 4,
+        "datetime": "2015-05-24T12:15:00",
+        "event": 13,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 610
+},
+{
+    "fields": {
+        "format": "DCP",
+        "url": "",
+        "series": 2,
+        "venue": 4,
+        "datetime": "2015-05-24T15:10:00",
+        "event": 7,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 611
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": null,
+        "series": 5,
+        "venue": 4,
+        "datetime": "2015-05-25T16:15:00",
+        "event": 14,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 612
 }
 ]
