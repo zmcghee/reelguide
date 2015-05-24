@@ -266,6 +266,28 @@ jQuery.ajaxSetup({
   }
 });
 
+jQuery(document).ready(function() {
+    window.sticky_div_top = jQuery('.filter-header').offset().top;
+
+    function sticky_relocate() {
+        var window_top = jQuery(window).scrollTop();
+        var body = jQuery('body:first');
+        if (window_top > window.sticky_div_top) {
+            if(body.hasClass('ui-page-header-fixed')) {
+                return; // already done
+            }
+            body.addClass('ui-page-header-fixed');
+            jQuery('.filter-header:first').addClass('ui-header-fixed');
+        } else {
+            body.removeClass('ui-page-header-fixed');
+            jQuery('.filter-header:first').removeClass('ui-header-fixed');
+        }
+    }
+    
+    jQuery(window).scroll(sticky_relocate);
+    sticky_relocate();
+});
+
 jQuery(window).bind( 'hashchange', function(e) {
     if(location.hash=='') reelguide.updateEventButtonsFromCache();
 });

@@ -1,11 +1,13 @@
-<div data-role="header" data-position="fixed">
+<div data-role="header">
     <h1>Austin Rep Calendar</h1>
 </div><!-- /header -->
-
-<div role="main" class="ui-content">
+<div data-role="header" class="filter-header ui-content">
     <form>
         <input id="filterTable-input" data-type="search" placeholder="Filter by title, format, venue, series, whatever">
     </form>
+</div><!-- /filter -->
+
+<div role="main" class="ui-content">
     <table data-role="table" id="movie-table" data-filter="true" data-input="#filterTable-input" class="ui-responsive table table-striped" data-mode="columntoggle">
         <tbody>
             {% for event in events %}
