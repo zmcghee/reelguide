@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from repertory.models import Event, Venue, Series, EventInstance
 
 class CalendarImport(object):
@@ -16,6 +16,7 @@ class CalendarImport(object):
     ignored = []
     create = []
     modify = []
+    update = []
     delete = []
 
     def __init__(self, items):
@@ -95,11 +96,24 @@ class CalendarImport(object):
                 obj = EventInstance.objects.get(event=prepared['event'],             
                   venue=prepared['venue'], datetime=prepared['datetime'])
             except EventInstance.DoesNotExist:
-                # If not, add it to list of objs to be created
-                self.create.append(prepared)
+                try:
+                    # Find an event instance with this name at this venue
+                    # within an hour (time may have changed slightly)
+                    obj = EventInstance.objects.get(event=prepared['event'],             
+                      venue=prepared['venue'],
+                      datetime__gte=(prepared['datetime'] - timedelta(hours=1)),
+                      datetime__lte=(prepared['datetime'] + timedelta(hours=1)),
+                    )
+                except EventInstance.DoesNotExist, EventInstance.MultipleObjectsReturned:
+                    # If not, add it to list of objs to be created
+                    self.create.append(prepared)
+                else:
+                    # if so, assume the time just changed slightly
+                    self.modify.append((obj, prepared))
+                    still_valid_ids.append(obj.pk)
             else:
                 # If it does exist, add it to list of objs to update
-                self.modify.append((obj, prepared))
+                self.update.append((obj, prepared))
                 # Also add its ID to a list of still-valid future objs
                 still_valid_ids.append(obj.pk)
         # Now we need to collect the IDs of future events that no
@@ -113,20 +127,23 @@ class CalendarImport(object):
 %s items ignored.
 %s items will be created.
 %s items will be modified.
-%s items will be deleted.""" % (len(self.ignored), len(self.create),
-          len(self.modify), len(self.delete))
+%s items will be deleted.
+%s items look unchanged but will be updated.""" % (len(self.ignored), len(self.create),
+          len(self.modify), len(self.delete), len(self.update))
 
     @property
     def human_readable_run_result(self):
         return """Run results:
 %s of %s items created.
 %s of %s items modified.
-%s of %s items deleted.""" % (len(self.created), len(self.create),
+%s of %s items deleted.
+%s of %s items looked unchanged but were updated.""" % (len(self.created), len(self.create),
           len(self.modified), len(self.modify), self.deleted, 
-          len(self.delete))
+          len(self.delete), len(self.updated), len(self.update))
 
     def run(self):
         self.deleted = self.process_delete()
+        self.updated = self.process_update()
         self.modified = self.process_modify()
         self.created = self.process_create()
 
@@ -138,9 +155,21 @@ class CalendarImport(object):
             created.append(obj)
         return created
 
+    def process_update(self):
+        updated = []
+        for obj, prepared in self.update:
+            obj.datetime = prepared['datetime']
+            obj.series = prepared['series']
+            obj.is_film = prepared['is_film']
+            obj.format = prepared['format']
+            obj.save()
+            updated.append(obj)
+        return updated
+
     def process_modify(self):
         modified = []
         for obj, prepared in self.modify:
+            obj.datetime = prepared['datetime']
             obj.series = prepared['series']
             obj.is_film = prepared['is_film']
             obj.format = prepared['format']

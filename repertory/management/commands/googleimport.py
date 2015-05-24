@@ -15,10 +15,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         if not hasattr(settings, 'GOOGLE_SHEET_ID'):
             raise CommandError("No GOOGLE_SHEET_ID in settings file")
-        
+
         # Get Google Sheet
         sheet = GoogleSheet(settings.GOOGLE_SHEET_ID)
-        
+
         user_tmdb = raw_input("Should I try to find TMDb data? (y/n): ")
         if user_tmdb[:1].strip().lower() != 'y':
             # Grab the Google items and go!
@@ -33,12 +33,12 @@ class Command(BaseCommand):
         self.stdout.write(cal.human_readable_prep_result)
         if len(cal.delete) > 0:
             self.stdout.write("To be deleted: %s" % cal.delete)
-        
+
         user_continue = raw_input("Continue? (y/n): ")
         if user_continue[:1].strip().lower() != 'y':
             self.stdout.write("Stopping.")
             return
-        
+
         self.stdout.write("Running import...")
         cal.run()
         self.stdout.write("Import done. Result:")
