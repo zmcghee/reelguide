@@ -267,9 +267,12 @@ jQuery.ajaxSetup({
 });
 
 jQuery(document).on("pagechange", function() {
-    window.sticky_div_top = jQuery('.filter-header').offset().top;
+    window.sticky_div_top = 36; //jQuery('.filter-header').offset().top;
     jQuery(window).scroll(function () {
         var window_top = jQuery(window).scrollTop();
+        if( window_top > 100 ) {
+            return;
+        }
         var body = jQuery('body:first');
         if (window_top > window.sticky_div_top) {
             body.addClass('ui-page-header-fixed');
