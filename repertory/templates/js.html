@@ -265,4 +265,8 @@ jQuery.ajaxSetup({
     }
   }
 });
+
+jQuery(window).bind( 'hashchange', function(e) {
+    if(location.hash=='') reelguide.updateEventButtonsFromCache();
+});
 </script>
