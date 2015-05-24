@@ -52,7 +52,7 @@ python manage.py test
 
 #### Loading data
 
-There are two options for loading data into your environment.
+There are two options for loading initial data into your environment.
 
 ##### Fixture
 
@@ -62,17 +62,43 @@ The event calendar every week with the third week out. When that happens, I'll u
 python manage.py loaddata events
 ```
 
+This is how I generate that fixture file:
+
+```shell
+python manage.py dumpdata repertory.Event repertory.Venue \
+repertory.Series repertory.EventInstance \
+--indent 4 > repertory/fixtures/events.json
+```
+
 ##### Management command
 
-There's also a management command to load data from the current Google Sheet. That's where calendar info. originates. This command will take that spreadsheet data and (optionally) do a TMDB lookup, in addition to mapping other event info. to the database.
+There's also a management command to load data from the current Google Sheet. That's where calendar info. originates. This command will take that spreadsheet data and import it to and/or update the database.
 
 ```shell
 python manage.py googleimport
 ```
 
-I run this command locally to stage the weekly calendar update. Then I generate the fixture file above and use that to update the data in production. To generate the fixture file, I run:
+#### Doing data updates in production
+
+First, I update the Google Sheet with everything but the TMDB data. Then I run:
 
 ```shell
-python manage.py dumpdata repertory.Event repertory.Venue \
-repertory.Series repertory.EventInstance --indent 4 > events.json
+python manage.py tmdb
 ```
+
+That prints a list of TMDB IDs for me to copy and paste into the spreadsheet.
+
+Next, I rehearse the database update:
+
+```shell
+$ python manage.py googleimport
+Prep results:
+0 items ignored.
+0 items will be created.
+0 items will be modified.
+0 items will be deleted.
+48 items look unchanged but will be updated.
+Continue? (y/n): n
+```
+
+To actually continue with the database update, I type 'y' instead of 'n'. I run this locally first. If it goes smoothly, I run it in production.
