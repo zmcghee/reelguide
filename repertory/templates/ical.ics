@@ -7,10 +7,10 @@ DTEND:{{ event.endtime|date:"Ymd\THis\Z" }}
 UID:austinrep-{{ event.id }}
 DTSTAMP:{% now "Ymd\THis\Z" %}
 LOCATION:{{ event.venue.name }}
-DESCRIPTION:{{ event.title }}
+SUMMARY:{{ event.title }}
 {% comment %}URL;VALUE=URI:<?= escapeString($uri) ?>
-{% endcomment %}SUMMARY:{% if event.series %}{{ event.series.name }}{% endif %}
+{% endcomment %}DESCRIPTION:{% if event.series %}{{ event.series.name }}{% endif %}
 DTSTART:{{ event.datetime|date:"Ymd\THis\Z" }}
-END:VEVENT{% endfor %}
-
+END:VEVENT
+{% endfor %}
 END:VCALENDAR
