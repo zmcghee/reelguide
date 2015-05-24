@@ -1,16 +1,18 @@
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+X-WR-CALNAME:My Austin Rep
+X-WR-TIMEZONE;VALUE=TEXT:US/Central
 CALSCALE:GREGORIAN{% for event in events %}
 BEGIN:VEVENT
-DTEND:{{ event.endtime|date:"Ymd\THis\Z" }}
+DTEND:{{ event.endtime|date:"Ymd\THis" }}
 UID:austinrep-{{ event.event_id }}
-DTSTAMP:{% now "Ymd\THis\Z" %}
+DTSTAMP:{% now "Ymd\THis" %}
 LOCATION:{{ event.venue.name }}
 SUMMARY:{{ event.title }}
 {% comment %}URL;VALUE=URI:<?= escapeString($uri) ?>
 {% endcomment %}DESCRIPTION:{% if event.series %}{{ event.series.name }}{% endif %}
-DTSTART:{{ event.datetime|date:"Ymd\THis\Z" }}
+DTSTART:{{ event.datetime|date:"Ymd\THis" }}
 END:VEVENT
 {% endfor %}
 END:VCALENDAR
