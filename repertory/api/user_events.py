@@ -48,6 +48,6 @@ def user_ical_feed(request, secret):
     if request.method != "GET":
         return _bad_request_method()
     fbid, reeluserid = b64decode(secret).split("<>")
-    events = request.user.reeluser.calendar(python_datetime=True)
-    context = { 'events': events }
+    reeluser = ReelUser.objects.get(pk=reeluserid)
+    context = { 'events': reeluser.calendar(python_datetime=True) }
     return render(request, "ical.ics", context)
