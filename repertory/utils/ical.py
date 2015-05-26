@@ -2,10 +2,10 @@ from django.core.cache import cache
 from django.template import Context
 from django.template.loader import get_template
 
-def ics_for_user(reeluser, action=None, event_instance=None):
+def ics_for_user(reeluser, refresh=False, action=None, event_instance=None):
     cache_key = "ical_user_%s" % reeluser.pk
     user_ical = cache.get(cache_key)
-    if not user_ical:
+    if refresh or not user_ical:
         user_ical = {
             "cache": "",
             "pieces": [],
@@ -20,17 +20,17 @@ def ics_for_user(reeluser, action=None, event_instance=None):
     }
     if not user_ical['pieces']:
         for event_obj in reeluser.calendar(python_datetime=True):
-            id = event_obj['event_id']
-            sequence = user_ical['sequences'].get(id, -1)
-            user_ical['sequences'][id] = sequence + 1
+            id = int(event_obj['event_id'])
+            user_ical['sequences'][id] = 0
             sequence = user_ical['sequences'][id]
             context = { "sequence": sequence, "event": event_obj }
             piece = templates['event'].render(context)
             user_ical['pieces'].append(piece)
     if action and event_instance:
-        sequence = user_ical['sequences'].get(event_instance.pk, -1)
-        user_ical['sequences'][event_instance.pk] = sequence + 1
-        sequence = user_ical['sequences'][event_instance.pk]
+        id = int(event_instance.pk)
+        sequence = user_ical['sequences'].get(id, -1)
+        user_ical['sequences'][id] = sequence + 1
+        sequence = user_ical['sequences'][id]
         context = { "sequence": sequence,
           "event": event_instance.as_dict(python_datetime=True)}
         piece = templates[action].render(context)
@@ -39,5 +39,5 @@ def ics_for_user(reeluser, action=None, event_instance=None):
     end = templates['end'].render({})
     meat = "\n".join(user_ical['pieces'])
     user_ical['cache'] = "%s\n%s\n%s" % (start, meat, end)
-    cache.set(cache_key, user_ical)
+    cache.set(cache_key, user_ical, None)
     return user_ical['cache']

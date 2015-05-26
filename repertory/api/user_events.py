@@ -55,7 +55,8 @@ def user_ical_feed(request, facebook_id, secret):
         return _bad_request_method()
     reeluser = get_object_or_404(ReelUser,
       facebook_id=facebook_id, ical=secret)
-    res = ics_for_user(reeluser)
+    refresh_cache = request.GET.get('refresh', False)
+    res = ics_for_user(reeluser, refresh=refresh_cache)
     return HttpResponse(res, content_type='text/calendar')
 
 def user_meta(request):

@@ -1,5 +1,6 @@
 METHOD:PUBLISH
 BEGIN:VEVENT
+STATUS:CONFIRMED
 DTEND:{{ event.endtime|date:"Ymd\THis" }}
 UID:austinrep-{{ event.event_id }}
 DTSTAMP:{% now "Ymd\THis" %}
