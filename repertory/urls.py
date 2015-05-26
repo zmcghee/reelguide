@@ -1,10 +1,9 @@
 from django.conf.urls import url
 
 from repertory import api as repertory_api
-from repertory.views import *
 
 urlpatterns = [
-    url(r'^$', AppView.as_view(), name='login'),
+    url(r'^$', 'repertory.views.appview_from_cache', name='login'),
     url(r'^mine$', 'repertory.views.mine',
       name='ajax-user-calendar'),
     url(r'^api/calendar/(?P<secret>.*)/feed.ics', repertory_api.user_ical_feed,

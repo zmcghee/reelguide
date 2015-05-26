@@ -37,7 +37,7 @@ class AppView(TemplateView):
 
 def appview_from_cache(request):
     refresh_cache = request.GET.get('refresh', False)
-    if not expire_cache:
+    if not refresh_cache:
         cache_result = cache.get("MainAppView")
         if cache_result:
             output = "%s%s" % ("<!--cache-->", cache_result) 
