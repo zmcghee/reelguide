@@ -5,7 +5,6 @@ from django.db import models
 class Event(models.Model):
     title = models.CharField(max_length=250)
     tmdb = models.PositiveIntegerField(null=True, blank=True)
-    imdb = models.PositiveIntegerField(null=True, blank=True)
     sort_title = models.CharField(max_length=250, blank=True)
 
     def __unicode__(self):
@@ -79,7 +78,6 @@ class EventInstance(models.Model):
         obj = {
             'title': self.event.title,
             'tmdb': self.event.tmdb,
-            'imdb': self.event.imdb,
             'event_id': self.event.id,
             'event_instance_id': self.id,
             'venue': self.venue.as_dict,

@@ -13,7 +13,6 @@ class ReelUser(models.Model):
     event_instances = models.ManyToManyField(EventInstance, blank=True,
       related_name='attendees')
     fb_token = models.CharField(max_length=250, blank=True)
-    fb_cache = models.TextField(blank=True)
 
     @property
     def event_ids(self):
