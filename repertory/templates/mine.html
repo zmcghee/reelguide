@@ -1,6 +1,5 @@
-<script>
-if(!window.reelguide) location.href = '/';
-</script>
+{% spaceless %}
+<script>if(!window.reelguide){ location.href = '/'; }</script>
 <div data-role="page" id="mine">
 <div data-role="header">
     <h1>Austin Rep Calendar</h1>
@@ -67,3 +66,4 @@ if(!window.reelguide) location.href = '/';
     </div><!-- /navbar -->
 </div><!-- /footer -->
 </div><!-- /page -->
+{% endspaceless %}

@@ -1,4 +1,4 @@
-<html>
+{% spaceless %}<html>
 <head>
 <title>Austin Repertory Cinema Calendar</title>
 <link rel="icon" sizes="192x192" href="https://dl.dropboxusercontent.com/u/6602250/austin-rep/192x192.png" />
@@ -22,8 +22,8 @@ tr.info { display:table-row !important; }
 .filter-header { padding-top:0 !important;padding-bottom:0 !important; }
 .filter-header form input { font-weight:normal; }
 div[role=main] { min-height:100vh; }
-</style>
-{% include "js.html" %}
+</style>{% endspaceless %}
+{% include "js.html" %}{% spaceless %}
 </head>
 <body id="rep">
 <div data-role="page" id="calendar">
@@ -50,4 +50,4 @@ div[role=main] { min-height:100vh; }
 
 </script>
 </body>
-</html>
+</html>{% endspaceless %}
