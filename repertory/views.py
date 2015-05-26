@@ -2,6 +2,8 @@ from base64 import b64encode
 
 from datetime import datetime
 
+from django.core.cache import cache
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views.generic.base import TemplateView
 
@@ -32,3 +34,14 @@ class AppView(TemplateView):
         context = super(AppView, self).get_context_data(**kwargs)
         context['events'] = upcoming_events()
         return context
+
+def appview_from_cache(request):
+    refresh_cache = request.GET.get('refresh', False)
+    if not expire_cache:
+        cache_result = cache.get("MainAppView")
+        if cache_result:
+            output = "%s%s" % ("<!--cache-->", cache_result) 
+            return HttpResponse(cache_result)
+    response = AppView.as_view()(request)
+    cache.set("MainAppView", response.rendered_content)
+    return response

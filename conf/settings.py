@@ -5,6 +5,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import urlparse
 
 from conf.secret import SECRET_KEY, TMDB_API_KEY, FB_APP_ID, FB_APP_SECRET
 
@@ -72,6 +73,27 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+
+# Caching
+# https://docs.djangoproject.com/en/1.8/topics/cache/
+
+CACHES = {}
+REDISCLOUD_URL = os.environ.get('REDISCLOUD_URL', None)
+if REDISCLOUD_URL:
+    redis_url = urlparse.urlparse(REDISCLOUD_URL)
+    CACHES['default'] = {
+            'BACKEND': 'redis_cache.RedisCache',
+            'LOCATION': '%s:%s' % (redis_url.hostname, redis_url.port),
+            'OPTIONS': {
+                'PASSWORD': redis_url.password,
+                'DB': 0,
+        }
+    }
+else:
+    CACHES['default'] = {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
 
 
 # Internationalization
