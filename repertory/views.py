@@ -42,5 +42,5 @@ def appview_from_cache(request):
             output = "%s%s" % ("<!--cache-->", cache_result) 
             return HttpResponse(output)
     response = AppView.as_view()(request)
-    cache.set("MainAppView", response.rendered_content)
+    cache.set("MainAppView", response.rendered_content, None)
     return response
