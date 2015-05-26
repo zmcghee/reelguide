@@ -20,8 +20,7 @@ def upcoming_events():
 def mine(request):
     if request.user.is_authenticated():
         my_events = request.user.reeluser.calendar(python_datetime=True)
-        ical = b64encode("%s<>%s" % (request.user.reeluser.facebook_id,
-          request.user.reeluser.id))
+        ical = request.user.reeluser.ical
         context = {'ical': ical, 'events': my_events, 'logged_in': True}
     else:
         context = {'ical': False, 'events': False, 'logged_in': False}

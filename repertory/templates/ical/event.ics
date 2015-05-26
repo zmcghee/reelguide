@@ -1,0 +1,12 @@
+METHOD:PUBLISH
+BEGIN:VEVENT
+DTEND:{{ event.endtime|date:"Ymd\THis" }}
+UID:austinrep-{{ event.event_id }}
+DTSTAMP:{% now "Ymd\THis" %}
+LOCATION:{{ event.venue.name }}
+SUMMARY:{{ event.title }}
+SEQUENCE:{{ sequence }}
+{% comment %}URL;VALUE=URI:<?= escapeString($uri) ?>
+{% endcomment %}DESCRIPTION:{% if event.series %}{{ event.series.name }}{% endif %}
+DTSTART:{{ event.datetime|date:"Ymd\THis" }}
+END:VEVENT

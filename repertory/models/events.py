@@ -72,6 +72,11 @@ class EventInstance(models.Model):
     def __unicode__(self):
         return "%s at %s on %s" % (self.event, self.venue, self.datetime)
 
+    def save(self, *args, **kwargs):
+        result = super(EventInstance, self).save(*args, **kwargs)
+        self.update_ical_for_attendees()
+        return result
+
     def as_dict(self, python_datetime=False):
         datetime_format = "%Y-%m-%d %H:%M:00"
         sort_dt_fmt = "%Y%m%d%H%M"
@@ -93,3 +98,8 @@ class EventInstance(models.Model):
             obj['datetime'] = self.datetime
             obj['endtime'] = self.datetime + timedelta(hours=2)
         return obj
+
+    def update_ical_for_attendees(self):
+        from repertory.utils.ical import ics_for_user
+        for reeluser in self.attendees.all():
+            ics = ics_for_user(reeluser, action='update', event_instance=self)

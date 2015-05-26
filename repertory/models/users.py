@@ -1,4 +1,6 @@
+import base64
 import requests
+import uuid
 
 from datetime import datetime
 
@@ -13,6 +15,7 @@ class ReelUser(models.Model):
     event_instances = models.ManyToManyField(EventInstance, blank=True,
       related_name='attendees')
     fb_token = models.CharField(max_length=250, blank=True)
+    ical = models.CharField(max_length=250, null=True, blank=True)
 
     @property
     def event_ids(self):
@@ -25,3 +28,7 @@ class ReelUser(models.Model):
         for event in qs:
             items.append(event.as_dict(**kwargs))
         return items
+
+    def set_ical_key(self):
+        key = base64.b64encode(uuid.uuid4().bytes).replace('=', '')
+        self.ical = key.encode('ascii')
