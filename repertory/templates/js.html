@@ -133,8 +133,8 @@ var reelguide = {
       data: { "fbAccessToken": fbAccessToken, "fbUserID": fbUserID }
     }).done(function(response){
         reelguide.log("Executing your callback!");
-        if (location.hash != '') {
-            location.hash = '';
+        if(location.href.match("mine") || location.hash.match('login')) {
+            location.href = '/#';
         }
     }).success(callback);
   },
@@ -153,7 +153,6 @@ var reelguide = {
         reelguide.log(result);
         reelguide.user.event_ids = result.event_ids;
         reelguide.updateEventButtonsFromCache();
-        location.href = '/';
       });
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
