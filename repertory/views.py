@@ -24,7 +24,7 @@ def mine(request):
         context = {'ical': ical, 'events': my_events, 'logged_in': True}
     else:
         context = {'ical': False, 'events': False, 'logged_in': False}
-    return render(request, "mine.html", context)
+    return render(request, "events_mine.html", context)
 
 class AppView(TemplateView):
     template_name = "app.html"

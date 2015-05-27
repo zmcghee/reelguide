@@ -1,0 +1,32 @@
+{% spaceless %}
+<script>if(!window.reelguide){ location.href = '/'; }</script>
+<div data-role="page" id="mine">
+<div data-role="header">
+    <h1>Austin Rep Calendar</h1>
+</div><!-- /header -->
+
+<div role="main" class="ui-content">
+{% if not logged_in %}
+<script>location.hash = 'login';</script>
+{% else %}
+{% if not events %}
+<p>Add some events to your calendar, silly.</p>
+{% else %}
+    {% with "mine" as calendar_type and 1 as filter_enabled and "my-events-table" as table_id %}
+    {% include "calendar.html" %}
+    {% endwith %}
+{% endif %}
+{% endif %}
+</div><!-- /content -->
+
+<div data-role="footer" data-position="fixed">
+    <div data-role="navbar" data-iconpos="top">
+        <ul>
+            <li><a href="/" data-icon="calendar">All Events</a></li>
+            <li><a href="#mine" data-icon="star" class="ui-btn-active">My Events</a></li>
+            <li><a href="#about" data-icon="info">About</a></li>
+        </ul>
+    </div><!-- /navbar -->
+</div><!-- /footer -->
+</div><!-- /page -->
+{% endspaceless %}

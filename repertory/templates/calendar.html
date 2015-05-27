@@ -1,17 +1,14 @@
-<div data-role="header">
-    <h1>Austin Rep Calendar</h1>
-</div><!-- /header -->
-
-<div role="main" class="ui-content">
+    {% if filter_enabled %}
     <form>
-        <input id="filterTable-input" data-type="search" placeholder="Filter by title, format, venue, series, whatever">
+        <input id="filter-{{ table_id }}" data-type="search" placeholder="Filter by title, format, venue, series, whatever">
     </form>
-    <table data-role="table" id="movie-table" data-filter="true" data-input="#filterTable-input" class="ui-responsive table table-striped" data-mode="columntoggle">
+    {% endif %}
+    <table data-role="table" id="{{ table_id }}" {% if filter_enabled %}data-filter="true" data-input="filter-{{ table_id }}" {% endif %}class="ui-responsive table table-striped" data-mode="columntoggle">
         <tbody>
             {% for event in events %}
             {% ifchanged event.datetime|date:"D j M" %}
             <tr class="info">
-                <th colspan="3">
+                <th colspan="{% if calendar_type == 'all' %}3{% else %}2{% endif %}">
                     {{ event.datetime|date:"D j M" }}
                 </th>
             </tr>
@@ -36,19 +33,10 @@
                         {% endif %}
                     </p>
                 </td>
+                {% if calendar_type == "all" %}
                 <td><form><label for="checkbox-{{ event.event_instance_id }}"><input class="event-checkbox" type="checkbox" id="checkbox-{{ event.event_instance_id }}" data-event-instance-id="{{ event.event_instance_id }}">Going</label></form></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </tbody>
     </table>
-</div><!-- /content -->
-
-<div data-role="footer" data-position="fixed">
-    <div data-role="navbar" data-iconpos="top">
-        <ul>
-            <li><a href="" data-icon="calendar" class="ui-btn-active ui-state-persist">All Events</a></li>
-            <li><a href="{% url 'ajax-user-calendar' %}" data-icon="star">My Events</a></li>
-            <li><a href="#about" data-icon="info">About</a></li>
-        </ul>
-    </div><!-- /navbar -->
-</div><!-- /footer -->
