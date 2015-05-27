@@ -6,6 +6,8 @@ urlpatterns = [
     url(r'^$', 'repertory.views.appview_from_cache', name='login'),
     url(r'^mine$', 'repertory.views.mine',
       name='ajax-user-calendar'),
+    url(r'^@(\w+)', 'repertory.views.theirs',
+      name='public-user-calendar'),
     url(r'^api/calendar/(?P<facebook_id>\d+)/(?P<secret>.*)/rep.ics',
       repertory_api.user_ical_feed, name='api-user-ical-feed'),
     url(r'^api/calendar', repertory_api.upcoming_events,

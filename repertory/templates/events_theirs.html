@@ -1,0 +1,31 @@
+{% extends "app.html" %}
+
+{% block head %}
+<meta property="og:type" content="article" />
+<meta property="og:title" content="@{{ public }}'s Austin Rep Calendar" />
+<meta property="og:image" 
+  content="https://dl.dropboxusercontent.com/u/6602250/austin-rep/promo.jpg" />
+<meta property="og:description" 
+  content="@{{ public }}'s personal schedule of repertory cinema in Austin, Texas." />
+<title>@{{ public }}'s Austin Rep Calendar</title>
+<meta name="description" content="@{{ public }}'s personal schedule of repertory cinema in Austin, Texas.">
+{% endblock head %}
+
+{% block body %}
+<div data-role="page" id="theirs">
+<div data-role="header" data-position="fixed">
+    <h1><a href="/">Austin Rep Calendar</a></h1>
+</div><!-- /header -->
+
+<div class="ui-content">
+<h1>@{{ public }}'s Austin Rep Calendar</h1>
+{% if not events %}
+<p>There are no events on this calendar.</p>
+{% else %}
+    {% with "theirs" as calendar_type and 0 as filter_enabled and "their-events-table" as table_id %}
+    {% include "calendar.html" %}
+    {% endwith %}
+{% endif %}
+</div><!-- /content -->
+</div><!-- /page -->
+{% endblock body %}

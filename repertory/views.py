@@ -4,10 +4,10 @@ from datetime import datetime
 
 from django.core.cache import cache
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
 
-from repertory.models import EventInstance
+from repertory.models import EventInstance, ReelUser
 
 def upcoming_events():
     items = []
@@ -25,6 +25,14 @@ def mine(request):
     else:
         context = {'ical': False, 'events': False, 'logged_in': False}
     return render(request, "events_mine.html", context)
+
+def theirs(request, public):
+    reeluser = get_object_or_404(ReelUser, public=public)
+    context = {
+        'public': public,
+        'events': reeluser.calendar(python_datetime=True)
+    }
+    return render(request, "events_theirs.html", context)
 
 class AppView(TemplateView):
     template_name = "app.html"

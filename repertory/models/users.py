@@ -16,6 +16,7 @@ class ReelUser(models.Model):
       related_name='attendees')
     fb_token = models.CharField(max_length=250, blank=True)
     ical = models.CharField(max_length=250, null=True, blank=True)
+    public = models.CharField(max_length=100, null=True, blank=True)
 
     @property
     def event_ids(self):
