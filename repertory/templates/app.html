@@ -15,24 +15,10 @@
 <link rel="apple-touch-icon" sizes="152x152" href="https://dl.dropboxusercontent.com/u/6602250/austin-rep/Icon-76@2x.png" />
 <link rel="apple-touch-icon" sizes="58x58" href="https://dl.dropboxusercontent.com/u/6602250/austin-rep/Icon-Small@2x.png" />
 <meta name="viewport" content="width=device-width, initial-scale=.8, user-scalable=no" />
-<link rel="stylesheet" href="//code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-<style>
-#rep .ui-checkbox input { top:20% !important; }
-#rep input[type=checkbox] { margin-top:0 !important; }
-p.time { margin-top:10px; }
-p.desc { font-size:.8em; }
-td h4 { margin-bottom:5px; }
-td form { margin-bottom:0;max-width:120px;float:right; }
-a.ui-table-columntoggle-btn { display:none !important; }
-tr.info { display:table-row !important; }
-.filter-header { padding-top:0 !important;padding-bottom:0 !important; }
-.filter-header form input { font-weight:normal; }
-div[role=main] { min-height:100vh; }
-</style>{% endspaceless %}
-{% include "js.html" %}{% spaceless %}
+{% endspaceless %}{% include "css.html" %}{% include "js.html" %}{% spaceless %}
 </head>
 <body id="rep">
+{% block body %}
 <div data-role="page" id="calendar">
     {% include "calendar.html" %}
 </div><!-- /calendar -->
@@ -44,7 +30,7 @@ div[role=main] { min-height:100vh; }
 <div data-role="page" id="about">
     {% include "about.html" %}
 </div>
-
+{% endblock body %}
 <div id="fb-root"></div>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
