@@ -25,14 +25,16 @@ def _user_to_event(request, add=False, remove=False):
         return JsonResponse(res, status=404)
     if add:
         request.user.reeluser.event_instances.add(event_instance)
-        ics = ics_for_user(request.user.reeluser, action='event',
-          event_instance=event_instance)
+        if request.user.reeluser.ical:
+            ics = ics_for_user(request.user.reeluser, action='event',
+              event_instance=event_instance)
         res = {'success': "You were added to the event!",
                'eventInstanceId': int(eventInstanceId)}
     elif remove:
         request.user.reeluser.event_instances.remove(event_instance)
-        ics = ics_for_user(request.user.reeluser, action='cancel',
-          event_instance=event_instance)
+        if request.user.reeluser.ical:
+            ics = ics_for_user(request.user.reeluser, action='cancel',
+              event_instance=event_instance)
         res = {'success': "You were removed from the event.",
                'eventInstanceId': int(eventInstanceId)}
     return JsonResponse(res, status=200)
