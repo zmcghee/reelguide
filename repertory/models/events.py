@@ -93,6 +93,7 @@ class EventInstance(models.Model):
             'sort_title': self.event.sort_title,
             'sort_datetime': self.datetime.strftime(sort_dt_fmt),
         }
+        obj['datetime_unconfirmed'] = obj['sort_datetime'][-1] in ('1','6')
         obj['series'] = None if not self.series else self.series.as_dict
         if python_datetime:
             obj['datetime'] = self.datetime
