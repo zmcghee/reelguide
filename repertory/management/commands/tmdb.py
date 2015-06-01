@@ -75,8 +75,11 @@ class Command(BaseCommand):
           % (item['title'], item['venue'], item['date'])
         for i in range(0, result_count):
             movie = search.results[i]
-            question += "%s. %s (%s)\n" % (i, movie['title'],
-              movie['release_date'][:4])
+            try:
+                question += "%s. %s (%s)\n" % (i, movie['title'],
+                  movie['release_date'][:4])
+            except TypeError:
+                continue
         question += "%s. Enter a new search term\n" % result_count
         question += "%s. None of the above\n" % (result_count + 1)
         question += "Choice: "
