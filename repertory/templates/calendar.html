@@ -15,13 +15,12 @@
             {% endifchanged %}
             <tr>
                 <td>
-                    <p class="time"><nobr>
+                    <p class="time{% if event.datetime_unconfirmed %} unconfirmed{% endif %}">
+                        <nobr>{{ event.datetime|time:"g:i a" }}</nobr>
                         {% if event.datetime_unconfirmed %}
-                        TBA
-                        {% else %}
-                        {{ event.datetime|time:"g:i a" }}
+                        <br /><small>Unconfirmed</small>
                         {% endif %}
-                    </nobr></p>
+                    </p>
                 </td>
                 <td>
                     <h4>{{ event.title }}</h4>
