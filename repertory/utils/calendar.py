@@ -90,6 +90,7 @@ class CalendarImport(object):
                 'series': self.get_series_for_item(item),
                 'is_film': self.get_is_film_bool_for_item(item),
                 'format': item.get('format', ''),
+                'url': item.get('tickets', ''),
             }
             # Does this instance already exist?
             try:
