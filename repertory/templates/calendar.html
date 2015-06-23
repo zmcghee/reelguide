@@ -3,7 +3,7 @@
         <input id="filter-{{ table_id }}" data-type="search" placeholder="Filter by title, format, venue, series, whatever">
     </form>
     {% endif %}
-    <table data-role="table" id="{{ table_id }}" {% if filter_enabled %}data-filter="true" data-input="filter-{{ table_id }}" {% endif %}class="ui-responsive table table-striped" data-mode="columntoggle">
+    <table data-role="table" id="{{ table_id }}" {% if filter_enabled %}data-filter="true" data-input="#filter-{{ table_id }}" {% endif %}class="ui-responsive table table-striped" data-mode="columntoggle">
         <tbody>
             {% for event in events %}
             {% ifchanged event.datetime|date:"D j M" %}
