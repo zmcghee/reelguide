@@ -1279,6 +1279,150 @@
 },
 {
     "fields": {
+        "tmdb": 98094,
+        "sort_title": "Pinball Summer",
+        "title": "Pinball Summer"
+    },
+    "model": "repertory.event",
+    "pk": 143
+},
+{
+    "fields": {
+        "tmdb": 11797,
+        "sort_title": "Fright Night",
+        "title": "Fright Night"
+    },
+    "model": "repertory.event",
+    "pk": 144
+},
+{
+    "fields": {
+        "tmdb": 3053,
+        "sort_title": "Fearless Vampire Killers",
+        "title": "The Fearless Vampire Killers"
+    },
+    "model": "repertory.event",
+    "pk": 145
+},
+{
+    "fields": {
+        "tmdb": 23101,
+        "sort_title": "Topper",
+        "title": "Topper"
+    },
+    "model": "repertory.event",
+    "pk": 146
+},
+{
+    "fields": {
+        "tmdb": 4011,
+        "sort_title": "Beetlejuice",
+        "title": "Beetlejuice"
+    },
+    "model": "repertory.event",
+    "pk": 147
+},
+{
+    "fields": {
+        "tmdb": null,
+        "sort_title": "Apu Trilogy",
+        "title": "Apu Trilogy"
+    },
+    "model": "repertory.event",
+    "pk": 148
+},
+{
+    "fields": {
+        "tmdb": 147190,
+        "sort_title": "Something in the Air",
+        "title": "Something in the Air"
+    },
+    "model": "repertory.event",
+    "pk": 149
+},
+{
+    "fields": {
+        "tmdb": 49966,
+        "sort_title": "Savage Eye",
+        "title": "The Savage Eye"
+    },
+    "model": "repertory.event",
+    "pk": 150
+},
+{
+    "fields": {
+        "tmdb": 126328,
+        "sort_title": "Pirogue",
+        "title": "La Pirogue"
+    },
+    "model": "repertory.event",
+    "pk": 151
+},
+{
+    "fields": {
+        "tmdb": null,
+        "sort_title": "Coen Bros. x 5",
+        "title": "Coen Bros. x 5"
+    },
+    "model": "repertory.event",
+    "pk": 152
+},
+{
+    "fields": {
+        "tmdb": 8072,
+        "sort_title": "Alphaville",
+        "title": "Alphaville"
+    },
+    "model": "repertory.event",
+    "pk": 153
+},
+{
+    "fields": {
+        "tmdb": 34113,
+        "sort_title": "Urgh! A Music War",
+        "title": "Urgh! A Music War"
+    },
+    "model": "repertory.event",
+    "pk": 154
+},
+{
+    "fields": {
+        "tmdb": 61904,
+        "sort_title": "Lady Terminator",
+        "title": "Lady Terminator"
+    },
+    "model": "repertory.event",
+    "pk": 155
+},
+{
+    "fields": {
+        "tmdb": 29342,
+        "sort_title": "Bees",
+        "title": "The Bees"
+    },
+    "model": "repertory.event",
+    "pk": 156
+},
+{
+    "fields": {
+        "tmdb": 9874,
+        "sort_title": "Cobra",
+        "title": "Cobra"
+    },
+    "model": "repertory.event",
+    "pk": 157
+},
+{
+    "fields": {
+        "tmdb": 1374,
+        "sort_title": "Rocky IV",
+        "title": "Rocky IV"
+    },
+    "model": "repertory.event",
+    "pk": 158
+},
+{
+    "fields": {
         "notes": null,
         "name": "AFS at the Marchesa"
     },
@@ -1708,6 +1852,30 @@
     },
     "model": "repertory.series",
     "pk": 41
+},
+{
+    "fields": {
+        "notes": null,
+        "name": "Mid-century Ultra-modern"
+    },
+    "model": "repertory.series",
+    "pk": 42
+},
+{
+    "fields": {
+        "notes": null,
+        "name": "Music Monday"
+    },
+    "model": "repertory.series",
+    "pk": 43
+},
+{
+    "fields": {
+        "notes": null,
+        "name": "Tough Guy Cinema"
+    },
+    "model": "repertory.series",
+    "pk": 44
 },
 {
     "fields": {
@@ -4367,7 +4535,7 @@
         "url": null,
         "series": 13,
         "venue": 4,
-        "datetime": "2015-06-28T16:16:00",
+        "datetime": "2015-06-28T16:15:00",
         "event": 133,
         "is_film": true
     },
@@ -4393,7 +4561,7 @@
         "url": null,
         "series": 7,
         "venue": 4,
-        "datetime": "2015-06-29T19:01:00",
+        "datetime": "2015-06-29T19:00:00",
         "event": 135,
         "is_film": true
     },
@@ -4419,7 +4587,7 @@
         "url": null,
         "series": 39,
         "venue": 4,
-        "datetime": "2015-06-30T18:31:00",
+        "datetime": "2015-06-30T18:30:00",
         "event": 136,
         "is_film": false
     },
@@ -4432,25 +4600,12 @@
         "url": null,
         "series": null,
         "venue": 4,
-        "datetime": "2015-06-30T21:56:00",
+        "datetime": "2015-06-30T21:35:00",
         "event": 137,
         "is_film": true
     },
     "model": "repertory.eventinstance",
     "pk": 774
-},
-{
-    "fields": {
-        "format": "35mm",
-        "url": null,
-        "series": 11,
-        "venue": 4,
-        "datetime": "2015-07-01T22:26:00",
-        "event": 138,
-        "is_film": true
-    },
-    "model": "repertory.eventinstance",
-    "pk": 775
 },
 {
     "fields": {
@@ -4516,5 +4671,304 @@
     },
     "model": "repertory.eventinstance",
     "pk": 780
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": 11,
+        "venue": 4,
+        "datetime": "2015-07-01T22:25:00",
+        "event": 143,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 781
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 4,
+        "datetime": "2015-06-25T19:00:00",
+        "event": 70,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 782
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 3,
+        "datetime": "2015-07-03T19:00:00",
+        "event": 130,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 783
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 3,
+        "datetime": "2015-07-03T21:15:00",
+        "event": 129,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 784
+},
+{
+    "fields": {
+        "format": "Digital",
+        "url": "",
+        "series": null,
+        "venue": 7,
+        "datetime": "2015-07-07T19:00:00",
+        "event": 144,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 785
+},
+{
+    "fields": {
+        "format": "Digital",
+        "url": "",
+        "series": null,
+        "venue": 7,
+        "datetime": "2015-07-07T21:05:00",
+        "event": 145,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 786
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 3,
+        "datetime": "2015-07-08T19:00:00",
+        "event": 146,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 787
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 3,
+        "datetime": "2015-07-08T20:55:00",
+        "event": 147,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 788
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 3,
+        "datetime": "2015-07-09T19:00:00",
+        "event": 147,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 789
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 3,
+        "datetime": "2015-07-09T20:50:00",
+        "event": 146,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 790
+},
+{
+    "fields": {
+        "format": "DCP",
+        "url": "",
+        "series": null,
+        "venue": 1,
+        "datetime": "2015-07-05T12:00:00",
+        "event": 148,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 791
+},
+{
+    "fields": {
+        "format": "DCP",
+        "url": "",
+        "series": 36,
+        "venue": 1,
+        "datetime": "2015-07-07T19:30:00",
+        "event": 149,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 792
+},
+{
+    "fields": {
+        "format": "Digital",
+        "url": "",
+        "series": 28,
+        "venue": 6,
+        "datetime": "2015-07-08T19:30:00",
+        "event": 150,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 793
+},
+{
+    "fields": {
+        "format": "Digital",
+        "url": "",
+        "series": 37,
+        "venue": 1,
+        "datetime": "2015-07-09T19:30:00",
+        "event": 151,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 794
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 4,
+        "datetime": "2015-07-05T12:00:00",
+        "event": 152,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 795
+},
+{
+    "fields": {
+        "format": "DCP",
+        "url": "",
+        "series": 42,
+        "venue": 4,
+        "datetime": "2015-07-06T19:30:00",
+        "event": 153,
+        "is_film": false
+    },
+    "model": "repertory.eventinstance",
+    "pk": 796
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": 43,
+        "venue": 4,
+        "datetime": "2015-07-06T22:20:00",
+        "event": 154,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 797
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": 8,
+        "venue": 4,
+        "datetime": "2015-07-07T21:55:00",
+        "event": 155,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 798
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": 11,
+        "venue": 4,
+        "datetime": "2015-07-08T22:01:00",
+        "event": 156,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 799
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": 44,
+        "venue": 2,
+        "datetime": "2015-07-06T19:00:00",
+        "event": 157,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 800
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 5,
+        "datetime": "2015-07-04T15:40:00",
+        "event": 158,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 801
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": null,
+        "venue": 5,
+        "datetime": "2015-07-05T15:40:00",
+        "event": 158,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 802
+},
+{
+    "fields": {
+        "format": "35mm",
+        "url": "",
+        "series": 15,
+        "venue": 4,
+        "datetime": "2015-07-01T19:30:00",
+        "event": 111,
+        "is_film": true
+    },
+    "model": "repertory.eventinstance",
+    "pk": 803
 }
 ]
