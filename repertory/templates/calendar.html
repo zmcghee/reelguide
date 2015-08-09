@@ -26,7 +26,9 @@
                     <h4>{{ event.title }}</h4>
                     <p class="desc">
                         {{ event.venue.name }}
+                        {% if event.format %}
                         | {{ event.format }}
+                        {% endif %}
                         {% if event.series %}
                         | {{ event.series.name }}
                         {% endif %}

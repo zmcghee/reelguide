@@ -88,7 +88,7 @@ class EventInstance(models.Model):
             'venue': self.venue.as_dict,
             'external_url': self.url,
             'is_film': self.is_film,
-            'format': self.format,
+            'format': self.display_format,
             'datetime': self.datetime.strftime(datetime_format),
             'sort_title': self.event.sort_title,
             'sort_datetime': self.datetime.strftime(sort_dt_fmt),
@@ -99,6 +99,12 @@ class EventInstance(models.Model):
             obj['datetime'] = self.datetime
             obj['endtime'] = self.datetime + timedelta(hours=2)
         return obj
+
+    @property
+    def display_format(self):
+        if self.format == "?":
+            return None
+        return self.format
 
     def update_ical_for_attendees(self):
         from repertory.utils.ical import ics_for_user
