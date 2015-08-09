@@ -23,7 +23,11 @@
                     </p>
                 </td>
                 <td>
-                    <h4>{{ event.title }}</h4>
+                    <h4>
+                    {% if event.tmdb_url %}<a href="{{ event.tmdb_url }}">{% endif %}
+                        {{ event.title }}
+                    {% if event.tmdb_url %}</a>{% endif %}
+                    </h4>
                     <p class="desc">
                         {{ event.venue.name }}
                         {% if event.format %}

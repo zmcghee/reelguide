@@ -86,7 +86,8 @@ class EventInstance(models.Model):
             'event_id': self.event.id,
             'event_instance_id': self.id,
             'venue': self.venue.as_dict,
-            'external_url': self.url,
+            'ticket_url': self.url,
+            'tmdb_url': self.tmdb_url,
             'is_film': self.is_film,
             'format': self.display_format,
             'datetime': self.datetime.strftime(datetime_format),
@@ -105,6 +106,12 @@ class EventInstance(models.Model):
         if self.format == "?":
             return None
         return self.format
+
+    @property
+    def tmdb_url(self):
+        if not self.event.tmdb:
+            return None
+        return "https://www.themoviedb.org/movie/%s" % self.event.tmdb
 
     def update_ical_for_attendees(self):
         from repertory.utils.ical import ics_for_user
