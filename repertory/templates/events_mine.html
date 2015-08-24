@@ -39,7 +39,7 @@ function publicprofile() {
 }
 </script>
 <fieldset class="ui-grid-a">
-    <div class="ui-block-a"><button type="submit" data-mini="true" data-theme="a" onclick="publicprofile()">Manage your public profile</button></div>
+    <div class="ui-block-a"><button type="submit" data-mini="true" data-theme="a" onclick="publicprofile()">Get Public Link</button></div>
     <div class="ui-block-b"><button onclick="if( confirm('Please note that you need to tap this button every time you make changes to your rep calendar for it to update your iCal. Also, this is in beta, so YMMV. Hit me up with bugs. Tap OK to export, cancel to... well, you know.') ){ reelguide.api('api/me').success(function(data){ location.href=data.ical; }) }" data-mini="true" type="submit" data-theme="a">Export to iCal (beta)</button></div>
 </fieldset>
 {% if not events %}
