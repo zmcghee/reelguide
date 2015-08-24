@@ -9,10 +9,43 @@
 {% if not logged_in %}
 <script>location.hash = 'login';</script>
 {% else %}
+<script>
+public_base_url = "austinrep.zmcghee.com/@";
+function publicprofile() {
+    reelguide.api('api/me').success(function(data) {
+        var current_name = data.public;
+        if( current_name ) {
+            var new_name = window.prompt("Your profile is currently available to the public at this URL. Feel free to change it, or hit cancel to do nothing. To make your profile private, just delete the URL and click OK.", public_base_url + current_name);
+        } else {
+            var new_name = window.prompt("Your profile is not currently available to the public. To publish it, just enter a name for yourself below (mine is @zack). Or hit cancel to do nothing, it's your life.", public_base_url);
+        }
+        if (new_name != null) {
+            var name = new_name.split("@")[1];
+            if(!name) name = new_name;
+            if(name==public_base_url) name = '';
+            reelguide.api('api/me/public', {public: name}).success(function(data) {
+            if(data.public) {
+                alert("Success! Your public profile is now published at "+public_base_url+data.public);
+            } else{
+                alert("Success! Your profile is no longer public.");
+            }
+            }).error(function(data){
+                alert("There was an error saving your profile. The name you chose may have been taken. Please try again.");
+            });
+        }
+    }).error(function() {
+        alert("There was an error getting your profile. :(");
+    });
+}
+</script>
+<fieldset class="ui-grid-a">
+    <div class="ui-block-a"><button type="submit" data-mini="true" data-theme="a" onclick="publicprofile()">Manage your public profile</button></div>
+    <div class="ui-block-b"><button onclick="if( confirm('Please note that you need to tap this button every time you make changes to your rep calendar for it to update your iCal. Also, this is in beta, so YMMV. Hit me up with bugs. Tap OK to export, cancel to... well, you know.') ){ reelguide.api('api/me').success(function(data){ location.href=data.ical; }) }" data-mini="true" type="submit" data-theme="a">Export to iCal (beta)</button></div>
+</fieldset>
 {% if not events %}
 <p>Add some events to your calendar, silly.</p>
 {% else %}
-    {% with "mine" as calendar_type and 1 as filter_enabled and "my-events-table" as table_id %}
+    {% with "mine" as calendar_type and 0 as filter_enabled and "my-events-table" as table_id %}
     {% include "calendar.html" %}
     {% endwith %}
 {% endif %}

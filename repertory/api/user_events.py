@@ -8,6 +8,24 @@ from repertory.api import _not_authenticated, _bad_request_method
 from repertory.models import ReelUser, EventInstance
 from repertory.utils.ical import ics_for_user
 
+def set_user_public(request):
+    if request.method != "POST":
+        return _bad_request_method()
+    if not request.user.is_authenticated():
+        return _not_authenticated()
+    request.user.reeluser.public = request.POST.get('public', '')
+    try:
+        request.user.reeluser.save()
+    except:
+        res = {'error': 'Sorry, that name is not available.'}
+    else:
+        if request.user.reeluser.public:
+            res = {'success': "Your public profile has been published."}
+        else:
+            res = {'success': "Your profile is no longer public."}
+    res['public'] = request.user.reeluser.public
+    return JsonResponse(res, status=200)
+
 def _user_to_event(request, add=False, remove=False):
     if request.method != "POST":
         return _bad_request_method()
@@ -74,5 +92,6 @@ def user_meta(request):
     ical_params = {'secret': reeluser.ical,
       'facebook_id': reeluser.facebook_id}
     ical_url = reverse('api-user-ical-feed', kwargs=ical_params)
-    res = { 'ical': "http://%s%s" % (request.get_host(), ical_url) }
+    res = { 'ical': "http://%s%s" % (request.get_host(), ical_url),
+            'public': reeluser.public }
     return JsonResponse(res)

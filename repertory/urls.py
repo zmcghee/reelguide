@@ -22,6 +22,8 @@ urlpatterns = [
       name='api-add-user-to-event'),
     url(r'^api/me/event/remove$', repertory_api.remove_user_from_event,
       name='api-remove-user-from-event'),
+    url(r'^api/me/public$', repertory_api.set_user_public,
+      name='api-set-user-public'),
     url(r'^api/me/calendar$', repertory_api.user_calendar,
       name='api-user-calendar'),
 ]

@@ -27,7 +27,7 @@ def mine(request):
     return render(request, "events_mine.html", context)
 
 def theirs(request, public):
-    reeluser = get_object_or_404(ReelUser, public=public)
+    reeluser = get_object_or_404(ReelUser, public=public.lower())
     context = {
         'public': public,
         'events': reeluser.calendar(python_datetime=True)
