@@ -6,8 +6,6 @@ from repertory.utils.spreadsheet import GoogleSheet
 
 class Command(BaseCommand):
     help = 'Imports data from the Google Sheet specified in settings'
-    _tmdb_matches = {}
-    _tmdb_askonce = False
 
     def handle(self, *args, **options):
         if not hasattr(settings, 'GOOGLE_SHEET_ID'):
