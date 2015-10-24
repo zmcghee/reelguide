@@ -30,6 +30,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'repertory',
+    'importer',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -114,7 +115,3 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
-
-# Austin rep calendar Google Sheet
-# https://docs.google.com/spreadsheets/d/1PWhG8sLvoGM86OTBPIc7lrWYnqoAQPo9hzrEJRnKogE
-GOOGLE_SHEET_ID = '1PWhG8sLvoGM86OTBPIc7lrWYnqoAQPo9hzrEJRnKogE'

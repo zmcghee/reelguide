@@ -1,8 +1,12 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
+from requests.exceptions import HTTPError
+
 from repertory.utils.calendar import CalendarImport
 from repertory.utils.spreadsheet import GoogleSheet
+
+from importer.models import DataSource
 
 import tmdbsimple as tmdb
 tmdb.API_KEY = settings.TMDB_API_KEY
@@ -13,11 +17,18 @@ class Command(BaseCommand):
     _tmdb_askonce = False
 
     def handle(self, *args, **options):
-        if not hasattr(settings, 'GOOGLE_SHEET_ID'):
-            raise CommandError("No GOOGLE_SHEET_ID in settings file")
+        if DataSource.objects.count() < 1:
+            raise CommandError("No data sources found.")
+
+        question = u"Please choose which sheet to work on...\n"
+        for data in DataSource.objects.all():
+            question += "%s. %s\n" % (data.pk, data)
+        question += "Selection: "
+        answer = raw_input(question)
+        sheet_id = DataSource.objects.get(pk=int(answer)).sheet_id
 
         # Get Google Sheet
-        sheet = GoogleSheet(settings.GOOGLE_SHEET_ID)
+        sheet = GoogleSheet(sheet_id)
 
         # Attempt to load TMDb data where applicable
         items = self.get_items_with_tmdb(sheet.items)
@@ -45,7 +56,11 @@ class Command(BaseCommand):
             if self._tmdb_askonce and item['title'] in self._tmdb_matches:
                 item['tmdb'] = self._tmdb_matches.get(item['title'])
             else:
-                item['tmdb'] = self.get_tmdb_option_from_user(item)
+                try:
+                    item['tmdb'] = self.get_tmdb_option_from_user(item)
+                except HTTPError:
+                    self.stdout.write("HTTP error - leaving blank & moving on")
+                    item['tmdb'] = ""
             if item['title'] not in self._tmdb_matches:
                 self._tmdb_matches.update({item['title']: item['tmdb']})
             processed.append(item)

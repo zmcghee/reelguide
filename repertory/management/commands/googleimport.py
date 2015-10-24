@@ -4,18 +4,24 @@ from django.core.management.base import BaseCommand, CommandError
 from repertory.utils.calendar import CalendarImport
 from repertory.utils.spreadsheet import GoogleSheet
 
+from importer.models import DataSource
+
 class Command(BaseCommand):
-    help = 'Imports data from the Google Sheet specified in settings'
+    help = 'Imports data from the Google Sheets in the DataSource model'
 
     def handle(self, *args, **options):
-        if not hasattr(settings, 'GOOGLE_SHEET_ID'):
-            raise CommandError("No GOOGLE_SHEET_ID in settings file")
+        if DataSource.objects.count() < 1:
+            raise CommandError("No data sources found.")
 
-        # Get Google Sheet
-        sheet = GoogleSheet(settings.GOOGLE_SHEET_ID)
+        all_items = []
+
+        # Get Google Sheets
+        for data in DataSource.objects.all():
+            sheet = GoogleSheet(data.sheet_id)
+            all_items += sheet.items
 
         # Prepare calendar import
-        cal = CalendarImport(sheet.items)
+        cal = CalendarImport(all_items)
         cal.prepare()
         self.stdout.write(cal.human_readable_prep_result)
         if len(cal.delete) > 0:
