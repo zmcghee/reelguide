@@ -19,6 +19,7 @@ class Command(BaseCommand):
         for data in DataSource.objects.all():
             sheet = GoogleSheet(data.sheet_id)
             all_items += sheet.items
+            self.stdout.write("Found %s items for %s." % (len(sheet.items), data))
 
         # Prepare calendar import
         cal = CalendarImport(all_items)
