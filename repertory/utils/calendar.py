@@ -163,6 +163,7 @@ class CalendarImport(object):
             obj.series = prepared['series']
             obj.is_film = prepared['is_film']
             obj.format = prepared['format']
+            obj.url = prepared['url']
             obj.save()
             updated.append(obj)
         return updated
@@ -174,6 +175,7 @@ class CalendarImport(object):
             obj.series = prepared['series']
             obj.is_film = prepared['is_film']
             obj.format = prepared['format']
+            obj.url = prepared['url']
             obj.save()
             modified.append(obj)
         return modified
