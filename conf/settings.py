@@ -7,7 +7,8 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 import os
 import urlparse
 
-from conf.secret import SECRET_KEY, TMDB_API_KEY, FB_APP_ID, FB_APP_SECRET
+from conf.secret import (SECRET_KEY, TMDB_API_KEY, FB_APP_ID, FB_APP_SECRET,
+  GOOGLE_CLIENT_EMAIL, GOOGLE_PRIVATE_KEY)
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -15,7 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = []
 

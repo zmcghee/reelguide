@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>Austin Rep Import Tool</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<style>
+body { zoom:1.2; }
+ol,li { margin:0;padding:0;list-style:none;list-style-type:none; }
+fieldset { margin:1em 0; }
+hr { margin-top:1em; }
+.event-remove { float:right; }
+#macros, #export { font-weight:bold;padding:1em;background:#efefef; }
+#export { background:#ffe; }
+</style>
+</head>
+<body>
+<h1>Ugly-ass Austin Rep Import Tool</h1>
+<h2>Bridge from third-party data sources to Google Sheets</h2>
+<p id="macros">
+Import scripts: 
+<select id="import-tool">
+<option></option>
+<option value="drafthouse">Alamo Drafthouse Austin</option>
+</select>
+<input id="run-import-tool" type="button" value="Run"></p>
+<h3>Add / Review Events for Import</h3>
+<form>
+    <fieldset>
+        <input type="button" class="event-remove" value="Delete movie/event">
+        <legend>Add a new movie or event</legend>
+        <ol>
+            <li>
+                <label>Display title</label>
+                <input class="display-title" name="display-title">
+            </li>
+            <li>
+                <label>Series label</label>
+                <input class="series-label" name="series-label">
+            </li>
+            <li>
+                <label>Venue</label>
+                <input class="venue" name="venue">
+            </li>
+            <li>
+                <label>Schedule</label>
+                <ol class="schedule-container">
+                    <li>
+                        <label>Date</label>
+                        <input class="date" name="date">
+                        <label>Time</label>
+                        <input class="time" name="time">
+                        <label>Format</label>
+                        <input class="format" name="format">
+                        <label>Ticketing link</label>
+                        <input class="link" name="link">
+                        <input type="button" class="schedule-remove" value="-">
+                    </li>
+                </ol>
+                <input type="button" class="schedule-add" value="Add date and time">
+            </li>
+        </ol>
+    </fieldset>
+    <input class="event-add" type="button" value="Add another movie or event">
+    <p id="export">
+    Send to Google Sheet:
+    <select id="sheet" name="sheet">
+    {% for sheet in sheets %}
+    <option value="{{ sheet.id }}">{{ sheet.title }}</option>
+    {% endfor %}
+    </select>
+    <button id="submit" type="submit">Export &raquo;</button>
+    </p>
+{% csrf_token %}
+</form>
+<script>
+jQuery("form").submit(function(e){
+    e.preventDefault();
+    jQuery(this).find(".schedule-container").each(function(i){
+        jQuery(this).find("li input").each(function(){
+            var field_name = jQuery(this).attr("name");
+            if(field_name) {
+                field_name = field_name.split("_")[0];
+                jQuery(this).attr("name", field_name + '_' + i);
+            }
+        });
+    });
+    jQuery.post("/importer/api/export", jQuery(this).serialize(), 
+                window.importer.on_export_success, 'json').fail(
+                function(){ alert("There was an export error.") });
+    return false;
+});
+jQuery(".event-add").click(function(){
+    jQuery("form .event-add").before(window.importer.templates.event.clone(true));
+});
+jQuery(".event-remove").click(function(){
+    jQuery(this).parent().remove();
+});
+jQuery(".schedule-add").click(function(){
+    jQuery(this).prev().append(window.importer.templates.instance.clone(true));
+});
+jQuery(".schedule-remove").click(function(){
+    jQuery(this).parent().remove();
+});
+jQuery("#run-import-tool").click(function(){
+    var api_endpoint = jQuery("#import-tool").val();
+    if(!api_endpoint) return;
+    jQuery(this).text("Please wait...").prop("disabled", true);
+    jQuery.getJSON("/importer/api/" + api_endpoint, function(data) {
+        jQuery(data).each(function(){
+            var theater = this.theater;
+            var lookup = this.lookup;
+            var ignore = this.ignore;
+
+            /* Can I ignore the titles I think I can? */
+            var ignore_titles = [];
+            for( var i=0; i<ignore.length; i++ ) {
+                ignore_titles.push(ignore[i][1].name);
+            }
+            if( !confirm("I think I can ignore all these titles for "+theater+". Click CANCEL if I shouldn't.\n\n" + ignore_titles.join("\n")) ) {
+                lookup = jQuery.merge(lookup, ignore);
+            }
+            /* Add titles from theater */
+            window.importer.add_titles_from_theater(theater, lookup);
+        });
+        jQuery(this.btn).val("Run").prop("disabled", true);
+    }.bind({"btn": this}));
+});
+window.importer = {
+    "templates": {
+        "event": jQuery("fieldset").clone(true, true),
+        "instance": jQuery(".schedule-container li").clone(true, true)
+    },
+    "add_titles_from_theater": function(venue, events) {
+        for( var i=0; i<events.length; i++ ) {
+            var event = events[i][1];
+            window.importer.add_event(
+                event.name, event.title, event.series, venue, event.schedule
+            );
+        }
+    },
+    "add_event": function(found_name, display_name, series, venue, schedule) {
+        var event = jQuery("fieldset:last");
+        event.find("legend").text(found_name);
+        event.find(".display-title").val(display_name);
+        if(series) event.find(".series-label").val(series);
+        event.find(".venue").val(venue);
+        for( var i=0; i<schedule.length; i++ ) {
+            event.find(".schedule-container li:last .date").val(schedule[i][0]);
+            event.find(".schedule-container li:last .time").val(schedule[i][1]);
+            if( schedule[i].length > 2 ) {
+                event.find(".schedule-container li:last .link").val(schedule[i][2]);
+            }
+            if( i != (schedule.length - 1) ) {
+                event.find(".schedule-add").click();
+            }
+        }
+        jQuery(".event-add").click();
+    },
+    "on_export_success": function(data) {
+        alert("Success! You will now be redirected to the Google Sheet.");
+        location.href = data.sheetUrl;
+    }
+};
+</script>
+</body>
+</html>
