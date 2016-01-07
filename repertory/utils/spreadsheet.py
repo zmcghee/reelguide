@@ -82,6 +82,8 @@ class GoogleSheet(object):
     def items(self):
         """Returns entries from your sheet"""
         items = []
+        if 'entry' not in self.gsx['feed']:
+            return items
         for entry in self.gsx['feed']['entry']:
             item = {}
             for field in self.fields:
