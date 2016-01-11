@@ -89,7 +89,7 @@ class EventInstance(models.Model):
             'ticket_url': self.url,
             'tmdb_url': self.tmdb_url,
             'is_film': self.is_film,
-            'format': self.display_format,
+            'format': self.display_format or "Unknown",
             'datetime': self.datetime.strftime(datetime_format),
             'sort_title': self.event.sort_title,
             'sort_datetime': self.datetime.strftime(sort_dt_fmt),

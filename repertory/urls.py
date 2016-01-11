@@ -12,6 +12,8 @@ urlpatterns = [
       repertory_api.user_ical_feed, name='api-user-ical-feed'),
     url(r'^api/calendar', repertory_api.upcoming_events,
       name='api-calendar'),
+    url(r'^api/event/format', repertory_api.update_format,
+      name='event-format-update'),
     url(r'^api/me$', repertory_api.user_meta,
       name='api-user-info'),
     url(r'^api/me/login', repertory_api.login_or_register,

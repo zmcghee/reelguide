@@ -13,7 +13,7 @@
                 </th>
             </tr>
             {% endifchanged %}
-            <tr>
+            <tr data-filtertext="{{ event.title }} {{ event.venue.name }} {{ event.series.name }} {% if event.is_film %}Film{% endif %} {{ event.format }}">
                 <td>
                     <p class="time{% if event.datetime_unconfirmed %} unconfirmed{% endif %}">
                         <nobr>{{ event.datetime|time:"g:i a" }}</nobr>
@@ -30,18 +30,19 @@
                     </h4>
                     <p class="desc">
                         {{ event.venue.name }}
-                        {% if event.format %}
-                        | {{ event.format }}
-                        {% endif %}
                         {% if event.series %}
                         | {{ event.series.name }}
                         {% endif %}
                         {% if event.external_url %}
                         | <a href="{{ event.external_url }}">Tickets</a>
                         {% endif %}
-                        {% if event.is_film %}
-                        <span style="display:none">Film</span>
-                        {% endif %}
+                        &nbsp; &nbsp; <select onchange="reelguide.updateEventFormat({{ event.event_instance_id }}, this.value);" class="format" id="format-{{ event.event_instance_id }}">
+                            {% for format in formats %}
+                            <option{% if format == event.format %} selected{% endif %}>
+                            {% if format == 'Unknown' %}Format?{% else %}{{ format }}{% endif %}
+                            </option>
+                            {% endfor %}
+                          </select>
                     </p>
                 </td>
                 {% if calendar_type == "all" %}

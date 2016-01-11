@@ -8,6 +8,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic.base import TemplateView
 
 from repertory.models import EventInstance, ReelUser
+from repertory.api.calendar import _get_all_formats
 
 def upcoming_events():
     items = []
@@ -40,6 +41,7 @@ class AppView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super(AppView, self).get_context_data(**kwargs)
         context['events'] = upcoming_events()
+        context['formats'] = _get_all_formats()
         return context
 
 def appview_from_cache(request):

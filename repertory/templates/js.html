@@ -22,6 +22,14 @@ var reelguide = {
     reelguide.updateEventButtonsFromCache();
   },
 
+  "updateEventFormat": function(event_instance_id, format_value) {
+    // does not require login
+    var params = {"event_id": event_instance_id, "format": format_value};
+    jQuery.post("/api/event/format", params, function(data) {
+        console.log(data);
+    });
+  },
+
   "updateEventButtonsFromCache": function() {
     jQuery(".event-checkbox").each(function(){
         var id = jQuery(this).data("event-instance-id");
