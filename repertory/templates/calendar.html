@@ -33,8 +33,8 @@
                         {% if event.series %}
                         | {{ event.series.name }}
                         {% endif %}
-                        {% if event.external_url %}
-                        | <a href="{{ event.external_url }}">Tickets</a>
+                        {% if event.ticket_url %}
+                        | <a href="{{ event.ticket_url }}">Tickets</a>
                         {% endif %}
                         &nbsp; &nbsp; <select onchange="reelguide.updateEventFormat({{ event.event_instance_id }}, this.value);" class="format" id="format-{{ event.event_instance_id }}">
                             {% for format in formats %}
