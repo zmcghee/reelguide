@@ -14,6 +14,7 @@ hr { margin-top:1em; }
 </head>
 <body>
 <h1>Ugly-ass Austin Rep Import Tool</h1>
+{% if bridge %}
 <h2>Bridge from third-party data sources to Google Sheets</h2>
 <p id="macros">
 Import scripts: 
@@ -22,6 +23,7 @@ Import scripts:
 <option value="drafthouse">Alamo Drafthouse Austin</option>
 </select>
 <input id="run-import-tool" type="button" value="Run"></p>
+{% endif %}
 <h3>Add / Review Events for Import</h3>
 <form>
     <fieldset>
@@ -60,6 +62,7 @@ Import scripts:
         </ol>
     </fieldset>
     <input class="event-add" type="button" value="Add another movie or event">
+    {% if bridge %}
     <p id="export">
     Send to Google Sheet:
     <select id="sheet" name="sheet">
@@ -68,6 +71,10 @@ Import scripts:
     {% endfor %}
     </select>
     <button id="submit" type="submit">Export &raquo;</button>
+    {% else %}
+    <input id="sheet" type="hidden" name="sheet" value="1t9AqweajWIQHwijUYmC746jVyFrA0jKpqzPiN-qBnCo">
+    <button style="display:block;margin-top:1em;" id="submit" type="submit">Submit &raquo;</button>
+    {% endif %}
     </p>
 {% csrf_token %}
 </form>
@@ -156,8 +163,13 @@ window.importer = {
         jQuery(".event-add").click();
     },
     "on_export_success": function(data) {
+        {% if bridge %}
         alert("Success! You will now be redirected to the Google Sheet.");
         location.href = data.sheetUrl;
+        {% else %}
+        alert("Thank you! You're all done.");
+        location.href = '/';
+        {% endif %}
     }
 };
 </script>

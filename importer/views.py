@@ -1,3 +1,4 @@
+from django.contrib.admin.views.decorators import staff_member_required
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 
@@ -37,17 +38,23 @@ def export_api(request):
         return JsonResponse({"sheetUrl": sheet.url,
                              "postData": request.POST.lists()})
 
+@staff_member_required
 def bridge(request):
     try:
         sheets = gc().openall()
     except:
         sheets = []
-    context = {"sheets": sheets}
+    context = {"sheets": sheets, "bridge": True}
+    return render(request, "bridge.html", context)
+
+def user(request):
+    context = {"bridge": False}
     return render(request, "bridge.html", context)
 
 def index(request):
     return render(request, "index.html")
 
+@staff_member_required
 def drafthouse_api(request):
     results = []
 
