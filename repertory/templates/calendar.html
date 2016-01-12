@@ -46,7 +46,7 @@
                     </p>
                 </td>
                 {% if calendar_type == "all" %}
-                <td><form><label for="checkbox-{{ event.event_instance_id }}"><input class="event-checkbox" type="checkbox" id="checkbox-{{ event.event_instance_id }}" data-event-instance-id="{{ event.event_instance_id }}">Going</label></form></td>
+                <td><form><label for="checkbox-{{ event.event_instance_id }}"><input class="event-checkbox" type="checkbox" id="checkbox-{{ event.event_instance_id }}" data-event-instance-id="{{ event.event_instance_id }}"><span class="save-label">Save?</span></label></form></td>
                 {% endif %}
             </tr>
             {% endfor %}

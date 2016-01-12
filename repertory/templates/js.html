@@ -37,8 +37,10 @@ var reelguide = {
         if(reelguide.isUserGoing(id)){
             reelguide.log("Marking "+id+" as checked");
             jQuery(this).prop("checked", true).checkboxradio('refresh');
+            jQuery(this).parent().find('.save-label').text("Saved");
         } else {
             jQuery(this).prop("checked", false).checkboxradio('refresh');
+            jQuery(this).parent().find('.save-label').text("Save?");
         }
         /* Attach click event */
         jQuery(this).unbind().click(function(event){
@@ -48,13 +50,17 @@ var reelguide = {
             if( jQuery(this).prop("checked") ) {
                 reelguide.addUserToEvent(id).fail(function() {
                     reelguide.user._active_checkbox.prop("checked", false).checkboxradio('refresh');
+                    reelguide.user._active_checkbox.parent().find('.save-label').text("Save?");
                 }).success(function() {
+                    reelguide.user._active_checkbox.parent().find('.save-label').text("Saved");
                     reelguide.user._active_checkbox = null;
                 });
             } else {
                 reelguide.removeUserFromEvent(id).fail(function() {
+                    reelguide.user._active_checkbox.parent().find('.save-label').text("Saved");
                     reelguide.user._active_checkbox.checkboxradio('refresh');
                 }).success(function() {
+                    reelguide.user._active_checkbox.parent().find('.save-label').text("Save?");
                     reelguide.user._active_checkbox = null;
                 });
             }
