@@ -56,7 +56,12 @@ def user(request):
 
 @staff_member_required
 def index(request):
-    return render(request, "index.html")
+    try:
+        sheets = gc().openall()
+    except:
+        sheets = []
+    context = {"sheets": sheets}
+    return render(request, "index.html", context)
 
 @staff_member_required
 def drafthouse_api(request):

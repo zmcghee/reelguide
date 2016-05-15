@@ -4,8 +4,14 @@
 </head>
 <body>
 <h1>Ugly-ass Austin Rep Import Tool</h1>
-<h2><a href="./bridge">Macros / Google Sheet Prep Tool</a></h2>
-<p>Import, transform, and review data from third-party sources and export them to a Google Sheet.</p>
+<h2>Google Sheets</h2>
+<ul>
+{% for sheet in sheets %}
+<li><a href="https://docs.google.com/spreadsheets/d/{{ sheet.id }}/edit#gid=0">{{ sheet.title }}</a></li>
+{% endfor %}
+</ul>
+<h2><a href="./bridge">Sheet Prep Tool</a></h2>
+<p>Mainly used to import the always-changing Alamo calendar into that Google Sheet up there.</p>
 <h2>Update the calendar</h2>
 <p>Preview and finalize a calendar update from the collection of Google Sheets.</p>
 </ul>
