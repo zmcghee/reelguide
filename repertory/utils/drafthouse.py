@@ -89,11 +89,18 @@ class AlamoDrafthouse(object):
             self.lookup[link] = self.ignore[link]
 
     def ignore_event(self, series, title, show_count):
+        """
+        Here are the rules for stuff to ignore:
+         1. quote-a-longs
+         2. master pancake events
+         3. events with more than 6 scheduled times other than kids camps
+         4. action pack and dance parties
+        """
         s = series.lower() if series else ""
         t = title.lower()
         if t.endswith("qal") or t.endswith("quote-along")\
           or s=='master pancake' or t=='choose your own pancake'\
-          or show_count > 6\
+          or (show_count > 6 and not s.__contains__("kids"))\
           or (s.endswith("action pack") and t.endswith("party")):
             return True
         return False

@@ -33,17 +33,19 @@ Import script (optional):
             <li>
                 <label>Display title</label>
                 <input class="display-title" name="display-title">
-            </li>
-            <li>
-                <label>Series label</label>
-                <input class="series-label" name="series-label">
-            </li>
-            <li>
+                &nbsp;
                 <label>Venue</label>
                 <input class="venue" name="venue">
             </li>
             <li>
-                <label>Schedule</label>
+                <label>Series label (optional)</label>
+                <input class="series-label" name="series-label">
+                &nbsp;
+                <label>Runtime (optional)</label>
+                <input class="runtime" name="runtime">
+            </li>
+            <li>
+                <label style="font-style:italic">Schedule</label>
                 <ol class="schedule-container">
                     <li>
                         <label>Date</label>
@@ -140,15 +142,16 @@ window.importer = {
         for( var i=0; i<events.length; i++ ) {
             var event = events[i][1];
             window.importer.add_event(
-                event.name, event.title, event.series, venue, event.schedule
+                event.name, event.title, event.series, event.runtime, venue, event.schedule
             );
         }
     },
-    "add_event": function(found_name, display_name, series, venue, schedule) {
+    "add_event": function(found_name, display_name, series, runtime, venue, schedule) {
         var event = jQuery("fieldset:last");
         event.find("legend").text(found_name);
         event.find(".display-title").val(display_name);
         if(series) event.find(".series-label").val(series);
+        if(runtime) event.find(".runtime").val(runtime);
         event.find(".venue").val(venue);
         for( var i=0; i<schedule.length; i++ ) {
             event.find(".schedule-container li:last .date").val(schedule[i][0]);

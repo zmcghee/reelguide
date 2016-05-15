@@ -15,10 +15,11 @@ def export_api(request):
     except DataSource.DoesNotExist:
         return JsonResponse({"error": "Sheet not found as data source."})
     sheet_id = sheet.sheet_id
-    cols = ['Date', 'Time', 'Title', 'Venue', 'Format', 'Series', 'TMDB', 'Tickets']
+    cols = ['Date', 'Time', 'Title', 'Venue', 'Format', 'Runtime', 'Series', 'Tickets']
     rows = []
     display_titles = request.POST.getlist('display-title')
     series_labels = request.POST.getlist('series-label')
+    runtimes = request.POST.getlist('runtime')
     venues = request.POST.getlist('venue')
     for i in range(len(display_titles)):
         if not display_titles[i]:
@@ -30,7 +31,7 @@ def export_api(request):
         links = request.POST.getlist('link_%s' % i)
         for x in range(len(dates)):
             rows.append([dates[x], times[x], display_titles[i], venues[i],
-                         formats[x], series_labels[i], "", links[x]])
+                         formats[x], runtimes[i], series_labels[i], links[x]])
     try:
         send_rows_to_sheet(sheet_id, cols, rows)
     except:
