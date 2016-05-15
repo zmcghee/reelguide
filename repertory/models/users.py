@@ -4,6 +4,7 @@ import uuid
 
 from datetime import datetime
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -26,6 +27,10 @@ class ReelUser(models.Model):
     @property
     def event_ids(self):
         return self.event_instances.values_list('pk', flat=True)
+
+    @property
+    def is_admin(self):
+        return self.user.is_staff
 
     def calendar(self, *args, **kwargs):
         items = []

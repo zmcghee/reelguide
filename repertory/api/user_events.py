@@ -93,5 +93,6 @@ def user_meta(request):
       'facebook_id': reeluser.facebook_id}
     ical_url = reverse('api-user-ical-feed', kwargs=ical_params)
     res = { 'ical': "http://%s%s" % (request.get_host(), ical_url),
-            'public': reeluser.public }
+            'public': reeluser.public,
+            'is_admin': reeluser.is_admin }
     return JsonResponse(res)
