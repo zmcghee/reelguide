@@ -8,6 +8,7 @@ from importer.utils import gc, send_rows_to_sheet
 from repertory.utils.drafthouse import AlamoDrafthouse, LOCATIONS
 from repertory.utils.spreadsheet import GoogleSheet
 
+@staff_member_required
 def export_api(request):
     try:
         sheet = DataSource.objects.get(url__icontains=request.POST.get("sheet"))
@@ -47,10 +48,12 @@ def bridge(request):
     context = {"sheets": sheets, "bridge": True}
     return render(request, "bridge.html", context)
 
+@staff_member_required
 def user(request):
     context = {"bridge": False}
     return render(request, "bridge.html", context)
 
+@staff_member_required
 def index(request):
     return render(request, "index.html")
 
