@@ -83,5 +83,6 @@ def login_or_register(request):
     request.user.reeluser.fb_token = fb_access_token
     request.user.reeluser.save()
     res = {'success': "You're logged in.",
-           'event_ids': list(request.user.reeluser.event_ids)}
+           'event_ids': list(request.user.reeluser.event_ids),
+           'is_admin': request.user.reeluser.is_admin}
     return JsonResponse(res, status=200)
