@@ -90,7 +90,7 @@ jQuery("form").submit(function(e){
             }
         });
     });
-    jQuery.post("/importer/api/export", jQuery(this).serialize(), 
+    jQuery.post("/import/api/export", jQuery(this).serialize(), 
                 window.importer.on_export_success, 'json').fail(
                 function(){ alert("There was an export error.") });
     return false;
@@ -111,7 +111,7 @@ jQuery("#run-import-tool").click(function(){
     var api_endpoint = jQuery("#import-tool").val();
     if(!api_endpoint) return;
     jQuery(this).text("Please wait...").prop("disabled", true);
-    jQuery.getJSON("/importer/api/" + api_endpoint, function(data) {
+    jQuery.getJSON("/import/api/" + api_endpoint, function(data) {
         jQuery(data).each(function(){
             var theater = this.theater;
             var lookup = this.lookup;

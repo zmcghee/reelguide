@@ -6,6 +6,6 @@ from repertory import urls as repertory_urls
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'importer/', include(importer_urls)),
+    url(r'import/', include(importer_urls)),
     url(r'', include(repertory_urls)),
 ]
